@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useActionState, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,43 +21,22 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { registerAction } from "../_actions/registerAction";
 
 const RegisterForm = () => {
-  const [formData, setFormData] = useState({
-    name: "Demo land lord",
-    email: "testaa_land_lord@gmail.com",
-    password: "123456",
-    phone: "01779312970",
-    avatar: "https://google.com",
-    bio: "demo bio for land lord",
-    role: "LANDLORD",
-  });
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleRoleChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, role: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Register submitted:", formData);
-  };
+  const [state, action, pending] = useActionState(registerAction, null);
 
   return (
     <Card className="w-full max-w-xl shadow-xl border bg-card p-2 sm:p-4 my-6">
       <CardHeader className="space-y-1.5 text-center">
-        <CardTitle className="text-2xl font-bold tracking-tight">Create an Account</CardTitle>
+        <CardTitle className="text-2xl font-bold tracking-tight">
+          Create an Account
+        </CardTitle>
         <CardDescription className="text-sm text-muted-foreground">
           Join RentNest as a Landlord or Tenant
         </CardDescription>
       </CardHeader>
-      <form onSubmit={handleSubmit}>
+      <form action={action}>
         <CardContent className="space-y-4 pt-2">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -69,8 +48,6 @@ const RegisterForm = () => {
                 name="name"
                 type="text"
                 placeholder="John Doe"
-                value={formData.name}
-                onChange={handleChange}
                 className="h-10"
                 required
               />
@@ -84,8 +61,6 @@ const RegisterForm = () => {
                 name="email"
                 type="email"
                 placeholder="name@example.com"
-                value={formData.email}
-                onChange={handleChange}
                 className="h-10"
                 required
               />
@@ -102,8 +77,6 @@ const RegisterForm = () => {
                 name="password"
                 type="password"
                 placeholder="••••••••"
-                value={formData.password}
-                onChange={handleChange}
                 className="h-10"
                 required
               />
@@ -117,8 +90,6 @@ const RegisterForm = () => {
                 name="phone"
                 type="tel"
                 placeholder="01779312970"
-                value={formData.phone}
-                onChange={handleChange}
                 className="h-10"
                 required
               />
@@ -130,7 +101,7 @@ const RegisterForm = () => {
               <Label htmlFor="role" className="text-sm font-medium">
                 Role
               </Label>
-              <Select value={formData.role} onValueChange={handleRoleChange}>
+              <Select>
                 <SelectTrigger id="role" className="w-full h-10">
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
@@ -149,8 +120,6 @@ const RegisterForm = () => {
                 name="avatar"
                 type="url"
                 placeholder="https://example.com/avatar.jpg"
-                value={formData.avatar}
-                onChange={handleChange}
                 className="h-10"
               />
             </div>
@@ -165,15 +134,16 @@ const RegisterForm = () => {
               name="bio"
               placeholder="Tell us a little bit about yourself..."
               rows={3}
-              value={formData.bio}
-              onChange={handleChange}
               className="resize-none"
             />
           </div>
         </CardContent>
 
         <CardFooter className="flex flex-col gap-4 pt-4">
-          <Button type="submit" className="w-full h-10 font-semibold cursor-pointer">
+          <Button
+            type="submit"
+            className="w-full h-10 font-semibold cursor-pointer"
+          >
             Register Account
           </Button>
           <div className="text-sm text-center text-muted-foreground">

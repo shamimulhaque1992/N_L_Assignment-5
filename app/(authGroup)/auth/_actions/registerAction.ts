@@ -1,3 +1,3 @@
 "use server";
 
-const register = async () => {};
+export const registerAction = async () => {};
