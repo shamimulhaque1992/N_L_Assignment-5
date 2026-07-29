@@ -55,7 +55,6 @@ export async function proxy(request: NextRequest) {
   if (decodedAccessToken?.success && typeof decodedAccessToken !== "string") {
     userRole = (decodedAccessToken.data as JwtPayload).role;
   }
-  console.log("🚀 ~ proxy ~ userRole:", userRole);
 
   // if user is authenticated but he is trying to go to auth route then redirect them
   if (
