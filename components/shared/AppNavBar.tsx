@@ -84,7 +84,7 @@ export function AppNavBar({ user }: { user: IUser }) {
           className="font-sans text-lg font-semibold tracking-tight"
           aria-label="Northstar home"
         >
-          Northstar
+          RENT 🏠 NEST
         </Link>
 
         <NavigationMenu className="hidden md:flex">
