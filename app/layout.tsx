@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, DM_Sans, Noto_Serif } from "next/font/google";
+import { Geist, Geist_Mono, DM_Sans, Noto_Serif, Outfit, Raleway } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-const notoSerifHeading = Noto_Serif({subsets:['latin'],variable:'--font-heading'});
+const ralewayHeading = Raleway({subsets:['latin'],variable:'--font-heading'});
 
-const dmSans = DM_Sans({subsets:['latin'],variable:'--font-sans'});
+const outfit = Outfit({subsets:['latin'],variable:'--font-sans'});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", dmSans.variable, notoSerifHeading.variable)}
+      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", outfit.variable, ralewayHeading.variable)}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

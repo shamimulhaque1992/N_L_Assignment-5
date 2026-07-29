@@ -1,9 +1,194 @@
-import React from 'react'
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 const RegisterForm = () => {
-  return (
-    <div>RegisterForm</div>
-  )
-}
+  const [formData, setFormData] = useState({
+    name: "Demo land lord",
+    email: "testaa_land_lord@gmail.com",
+    password: "123456",
+    phone: "01779312970",
+    avatar: "https://google.com",
+    bio: "demo bio for land lord",
+    role: "LANDLORD",
+  });
 
-export default RegisterForm
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleRoleChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, role: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Register submitted:", formData);
+  };
+
+  return (
+    <Card className="w-full max-w-xl shadow-xl border bg-card p-2 sm:p-4 my-6">
+      <CardHeader className="space-y-1.5 text-center">
+        <CardTitle className="text-2xl font-bold tracking-tight">Create an Account</CardTitle>
+        <CardDescription className="text-sm text-muted-foreground">
+          Join RentNest as a Landlord or Tenant
+        </CardDescription>
+      </CardHeader>
+      <form onSubmit={handleSubmit}>
+        <CardContent className="space-y-4 pt-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-sm font-medium">
+                Full Name
+              </Label>
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="John Doe"
+                value={formData.name}
+                onChange={handleChange}
+                className="h-10"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-sm font-medium">
+                Email Address
+              </Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="name@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                className="h-10"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-sm font-medium">
+                Password
+              </Label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={handleChange}
+                className="h-10"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="phone" className="text-sm font-medium">
+                Phone Number
+              </Label>
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder="01779312970"
+                value={formData.phone}
+                onChange={handleChange}
+                className="h-10"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="role" className="text-sm font-medium">
+                Role
+              </Label>
+              <Select value={formData.role} onValueChange={handleRoleChange}>
+                <SelectTrigger id="role" className="w-full h-10">
+                  <SelectValue placeholder="Select a role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="LANDLORD">Landlord</SelectItem>
+                  <SelectItem value="TENANT">Tenant</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="avatar" className="text-sm font-medium">
+                Avatar URL
+              </Label>
+              <Input
+                id="avatar"
+                name="avatar"
+                type="url"
+                placeholder="https://example.com/avatar.jpg"
+                value={formData.avatar}
+                onChange={handleChange}
+                className="h-10"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="bio" className="text-sm font-medium">
+              Bio
+            </Label>
+            <Textarea
+              id="bio"
+              name="bio"
+              placeholder="Tell us a little bit about yourself..."
+              rows={3}
+              value={formData.bio}
+              onChange={handleChange}
+              className="resize-none"
+            />
+          </div>
+        </CardContent>
+
+        <CardFooter className="flex flex-col gap-4 pt-4">
+          <Button type="submit" className="w-full h-10 font-semibold cursor-pointer">
+            Register Account
+          </Button>
+          <div className="text-sm text-center text-muted-foreground">
+            Already have an account?{" "}
+            <Link
+              href="/auth/login"
+              className="text-primary underline font-medium hover:text-primary/80 transition-colors"
+            >
+              Log in
+            </Link>
+          </div>
+        </CardFooter>
+      </form>
+    </Card>
+  );
+};
+
+export default RegisterForm;
