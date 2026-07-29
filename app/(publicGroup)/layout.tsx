@@ -1,8 +1,8 @@
 import { AppNavBar } from "@/components/shared/AppNavBar";
-import { getMyProfile } from "../(authGroup)/auth/_actions/getMyProfile";
 import React from "react";
+import { getMyProfile } from "../(authGroup)/auth/_actions/getMyProfile";
 
-const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
+const PublicLayout = async ({ children }: { children: React.ReactNode }) => {
   const user = await getMyProfile();
   return (
     <div className="min-h-screen bg-muted/40">
@@ -14,4 +14,4 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default DashboardLayout;
+export default PublicLayout;

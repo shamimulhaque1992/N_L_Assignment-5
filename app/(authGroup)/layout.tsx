@@ -1,9 +1,15 @@
+import { AppNavBar } from "@/components/shared/AppNavBar";
 import React from "react";
+import { getMyProfile } from "./auth/_actions/getMyProfile";
 
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+const AuthLayout = async ({ children }: { children: React.ReactNode }) => {
+  const user = await getMyProfile();
   return (
-    <div className="min-h-screen bg-muted/40 flex flex-col justify-center items-center p-4 sm:p-6">
-      {children}
+    <div className="min-h-screen bg-muted/40">
+      <AppNavBar user={user} />
+      <div className="flex min-h-[calc(100vh-5rem)] items-center justify-center">
+        {children}
+      </div>
     </div>
   );
 };
