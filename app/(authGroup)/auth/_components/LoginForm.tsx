@@ -25,15 +25,13 @@ const LoginForm = () => {
     loginAction.bind(null, redirectToUrl),
     initialState,
   );
-
+  console.log(state);
   useEffect(() => {
-    if (!state.success) return;
     if (state.success) {
       toast.success(state.message);
+      return;
     }
-    if (!state.success) {
-      toast.error(state.message);
-    }
+    toast.error(state.message);
   }, [state]);
 
   return (
