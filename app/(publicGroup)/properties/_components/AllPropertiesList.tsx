@@ -1,12 +1,14 @@
 "use server";
 
 import React from "react";
-import { IProperty } from "@/lib/types";
+import { ICategory, IProperty } from "@/lib/types";
 import PropertyCard from "./PropertyCard";
 import PropertyScalliton from "./PropertyScalliton";
-import { Building2, Search, SlidersHorizontal, Sparkles } from "lucide-react";
+import { Building2, Sparkles } from "lucide-react";
 import { getAllProperties } from "../_actions/getAllProperties";
 import AppSearchBar from "@/components/shared/AppSearchBar";
+import AppFilter, { FilterField } from "@/components/shared/AppFilter";
+import { getAllCategories } from "../_actions/getAllCategories";
 
 export const AllPropertiesList = async ({
   searchParams,
@@ -15,6 +17,63 @@ export const AllPropertiesList = async ({
 }) => {
   const query = await searchParams;
   const result = await getAllProperties({ query });
+  const categories = await getAllCategories();
+  const filterFields: FilterField[] = [
+    {
+      type: "single",
+      label: "Location",
+      placeholder: "e.g. Dhaka, Chittagong...",
+      paramKey: "location",
+    },
+    {
+      type: "single",
+      label: "Amenities",
+      placeholder: "Kitchen, Laundry, WiFi, ...",
+      paramKey: "amenities",
+    },
+    {
+      type: "double",
+      label: "Price Range (BDT)",
+      firstInput: { placeholder: "Min Price", paramKey: "minPrice" },
+      secondInput: { placeholder: "Max Price", paramKey: "maxPrice" },
+    },
+    {
+      type: "single-checkbox",
+      label: "Sort By Price",
+      paramKey: "price",
+      options: [
+        { label: "Price: Low to High", value: "ASC" },
+        { label: "Price: High to Low", value: "DESC" },
+      ],
+    },
+    {
+      type: "single-checkbox",
+      label: "Sort By Date",
+      paramKey: "createdAt",
+      options: [
+        { label: "Newest First", value: "DESC" },
+        { label: "Oldest First", value: "ASC" },
+      ],
+    },
+    {
+      type: "single-checkbox",
+      label: "Category",
+      paramKey: "categoryId",
+      options: categories?.data.map((c: ICategory) => ({
+        label: c.name,
+        value: c.id,
+      })),
+    },
+    {
+      type: "single-checkbox",
+      label: "Status",
+      paramKey: "status",
+      options: [
+        { label: "Available", value: "AVAILABLE" },
+        { label: "Unavailable", value: "UNAVAILABLE" },
+      ],
+    },
+  ];
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-8 space-y-8">
@@ -45,22 +104,7 @@ export const AllPropertiesList = async ({
         <AppSearchBar placeholder="Search by title, location, or description..." />
 
         {/* Category Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
-          <SlidersHorizontal className="h-4 w-4 text-slate-400 hidden sm:block shrink-0 ml-1" />
-          {/* {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-3.5 py-2 text-xs font-semibold rounded-xl transition-all shrink-0 ${
-                selectedCategory === cat
-                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/20"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
-              }`}
-            >
-              {cat}
-            </button>
-          ))} */}
-        </div>
+        <AppFilter fields={filterFields} />
       </div>
 
       {/* Content Grid / Skeleton / Empty state */}
@@ -68,7 +112,7 @@ export const AllPropertiesList = async ({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <PropertyScalliton count={6} />
         </div>
-      ) : result.data.length > 0 ? (
+      ) : result?.data?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {result?.data.map((property: IProperty) => (
             <PropertyCard key={property.id} property={property} />

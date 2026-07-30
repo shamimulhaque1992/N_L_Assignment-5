@@ -13,7 +13,12 @@ import {
   Sparkles,
 } from "lucide-react";
 import { IProperty } from "@/lib/types";
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface PropertyCardProps {
@@ -115,7 +120,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
                   className="inline-flex items-center gap-1 rounded-md bg-indigo-50 px-2 py-0.5 text-[11px] font-medium text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-300"
                 >
                   <Sparkles className="h-3 w-3 text-indigo-500" />
-                  {amenity}
+                  {amenity.charAt(0).toUpperCase() + amenity.slice(1)}
                 </span>
               ))}
               {property.amenities.length > 3 && (
