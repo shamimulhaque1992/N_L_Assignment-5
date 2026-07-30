@@ -8,12 +8,12 @@ interface PropertyScallitonProps {
 }
 
 export const PropertyScalliton: React.FC<PropertyScallitonProps> = ({
-  count = 1,
+  count = 10,
 }) => {
   const skeletons = Array.from({ length: count });
 
   return (
-    <>
+    <div className="grid grid-cols-3 items-center gap-2">
       {skeletons.map((_, index) => (
         <Card
           key={index}
@@ -70,7 +70,7 @@ export const PropertyScalliton: React.FC<PropertyScallitonProps> = ({
           </CardFooter>
         </Card>
       ))}
-    </>
+    </div>
   );
 };
 

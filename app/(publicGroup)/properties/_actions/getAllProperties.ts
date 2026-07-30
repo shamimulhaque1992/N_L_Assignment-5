@@ -1,17 +1,28 @@
-"use server"
+"use server";
 
-import { validateAccessToken } from "@/service/validateAccessToken"
+import { validateAccessToken } from "@/service/validateAccessToken";
 
-export const getAllProperties = async()=>{
-    const accessToken = await validateAccessToken();
+export const getAllProperties = async ({
+  query,
+}: {
+  query?: { [key: string]: string | string[] | undefined };
+}) => {
+  const accessToken = await validateAccessToken();
+  const params = new URLSearchParams();
 
-    const res = await fetch(`${process.env.BACKEND_API_URL}/properties`,{
-        headers:{
-            Cookie:`accessToken=${accessToken}`
-        },
-        cache:"no-store"
-    })
+  if (query && query.searchTerm) {
+    params.set("searchTerm", query.searchTerm as string);
+  }
+  const res = await fetch(
+    `${process.env.BACKEND_API_URL}/properties?${params.toString()}`,
+    {
+      headers: {
+        Cookie: `accessToken=${accessToken}`,
+      },
+      cache: "no-store",
+    },
+  );
 
-    const result = await res.json();
-    return result;
-}
+  const result = await res.json();
+  return result;
+};
