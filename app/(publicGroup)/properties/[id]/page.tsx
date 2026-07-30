@@ -17,6 +17,7 @@ import {
   Building2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SubmitRentalRequestButton from "../_components/SubmitRentalRequestButton";
 
 interface PropertyDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -39,7 +40,8 @@ export default async function PropertyDetailsPage({
           Property Not Found
         </h2>
         <p className="text-slate-500 dark:text-slate-400 text-sm max-w-md mt-2 mb-6">
-          The property details you are looking for could not be retrieved or no longer exists.
+          The property details you are looking for could not be retrieved or no
+          longer exists.
         </p>
         <Button asChild variant="default">
           <Link href="/properties" className="inline-flex items-center gap-2">
@@ -59,7 +61,6 @@ export default async function PropertyDetailsPage({
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-8">
-        
         {/* Top Navigation / Breadcrumb */}
         <div className="flex items-center justify-between">
           <Link
@@ -124,10 +125,8 @@ export default async function PropertyDetailsPage({
 
         {/* Main Content Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
           {/* Left Column (Property Info & Details) */}
           <div className="lg:col-span-2 space-y-8">
-            
             {/* Title & Location */}
             <div className="space-y-3 bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
@@ -182,7 +181,8 @@ export default async function PropertyDetailsPage({
                 <div className="flex items-start gap-4 pt-2">
                   <div className="h-14 w-14 rounded-2xl overflow-hidden bg-indigo-100 dark:bg-indigo-950 flex items-center justify-center text-indigo-600 dark:text-indigo-300 shrink-0 border border-indigo-200 dark:border-indigo-800/60">
                     {property.landlord.profile?.avatar &&
-                    property.landlord.profile.avatar !== "https://google.com" ? (
+                    property.landlord.profile.avatar !==
+                      "https://google.com" ? (
                       <img
                         src={property.landlord.profile.avatar}
                         alt={property.landlord.name}
@@ -257,13 +257,11 @@ export default async function PropertyDetailsPage({
                 </p>
               )}
             </div>
-
           </div>
 
           {/* Right Column (Rental Summary & Submit Request Sidebar) */}
           <div className="lg:col-span-1">
             <div className="sticky top-8 space-y-6 bg-white dark:bg-slate-900 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg">
-              
               {/* Price Tag */}
               <div className="space-y-1 border-b border-slate-100 dark:border-slate-800 pb-6">
                 <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
@@ -296,21 +294,11 @@ export default async function PropertyDetailsPage({
               </div>
 
               {/* Submit Request Button */}
-              <form
-                action={async () => {
-                  "use server";
-                }}
-              >
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={!isAvailable}
-                  className="w-full h-12 text-sm font-semibold rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-500/20 transition-all flex items-center justify-center gap-2"
-                >
-                  <Send className="h-4 w-4" />
-                  Submit Request
-                </Button>
-              </form>
+
+              <SubmitRentalRequestButton
+                isAvailable={isAvailable}
+                propetyId={id}
+              />
 
               {/* Features List */}
               <div className="space-y-3 pt-2">
@@ -323,12 +311,9 @@ export default async function PropertyDetailsPage({
                   <span>No hidden booking or application fees</span>
                 </div>
               </div>
-
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
   );
