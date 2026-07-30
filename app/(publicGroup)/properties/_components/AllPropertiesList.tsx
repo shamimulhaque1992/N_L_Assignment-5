@@ -9,6 +9,7 @@ import { getAllProperties } from "../_actions/getAllProperties";
 import AppSearchBar from "@/components/shared/AppSearchBar";
 import AppFilter, { FilterField } from "@/components/shared/AppFilter";
 import { getAllCategories } from "../_actions/getAllCategories";
+import AppPagination from "@/components/shared/AppPagination";
 
 export const AllPropertiesList = async ({
   searchParams,
@@ -131,6 +132,13 @@ export const AllPropertiesList = async ({
           </p>
         </div>
       )}
+
+      {/* Pagination */}
+      <AppPagination
+        page={result?.meta?.page}
+        limit={result?.meta?.limit}
+        total={result?.meta?.total}
+      />
     </div>
   );
 };

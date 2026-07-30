@@ -35,6 +35,12 @@ export const getAllProperties = async ({
     if (query.createdAt) {
       params.set("createdAt", query.createdAt as string);
     }
+    if (query.page) {
+      params.set("page", query.page as string);
+    }
+    if (query.limit) {
+      params.set("limit", query.limit as string);
+    }
     if (query.amenities) {
       const list = (query.amenities as string)
         .split(",")
