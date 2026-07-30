@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SubmitRentalRequestButton from "../_components/SubmitRentalRequestButton";
+import { Review } from "@/lib/types";
 
 interface PropertyDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -232,7 +233,7 @@ export default async function PropertyDetailsPage({
 
               {property.reviews && property.reviews.length > 0 ? (
                 <div className="space-y-4 divide-y divide-slate-100 dark:divide-slate-800">
-                  {property.reviews.map((review: any) => (
+                  {property.reviews.map((review: Review) => (
                     <div key={review.id} className="pt-4 first:pt-0 space-y-2">
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">

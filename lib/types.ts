@@ -79,3 +79,30 @@ export interface IProperty {
   reviews?: IReview[];
   images?: string[];
 }
+export type Review = {
+  id: string;
+  tenantId: string;
+  propertyId: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+  updatedAt: string;
+  tenant: {
+    id: string;
+    name: string;
+    email: string;
+    role: "TENANT";
+    status: "UNBAN";
+    createdAt: string;
+    updatedAt: string;
+    profile: {
+      id: string;
+      avatar: string;
+      bio: string;
+      phone: string;
+      userId: string;
+      createAt: string;
+      updatedAt: string;
+    };
+  };
+};
