@@ -6,7 +6,7 @@ import { getNewAccessToken } from "./service/getNewAccessToken";
 import { JwtPayload } from "jsonwebtoken";
 
 const AUTH_ROUTES = ["/auth/login", "/auth/register"];
-const PUBLIC_ROUTES = ["/", "/property"];
+const PUBLIC_ROUTES = ["/", "/properties"];
 
 const routeMatches = (route: string, pathName: string) =>
   pathName === route || pathName.startsWith(`${route}/`);
