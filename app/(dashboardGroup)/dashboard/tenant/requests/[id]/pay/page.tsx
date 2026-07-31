@@ -13,12 +13,12 @@ import {
   Calendar,
   CreditCard,
   Clock,
-  CheckCircle2,
   XCircle,
   Building2,
   CheckCircle,
 } from "lucide-react";
 import PayNowButton from "../../_components/PayNowButton";
+import { statusConfig } from "../../_config/statusConfig";
 
 interface RentalRequestDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -56,45 +56,6 @@ export default async function RentalRequestDetailsPage({
   }
 
   const { property, tenant, payment, status } = request;
-
-  const statusConfig = {
-    PENDING: {
-      label: "In Review",
-      badge:
-        "bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/50",
-      icon: <Clock className="h-4 w-4" />,
-    },
-    APPROVED: {
-      label: "Approved",
-      badge:
-        "bg-green-50 dark:bg-green-950/60 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800/50",
-      icon: <CheckCircle2 className="h-4 w-4" />,
-    },
-    REJECTED: {
-      label: "Rejected",
-      badge:
-        "bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/40",
-      icon: <XCircle className="h-4 w-4" />,
-    },
-    ACTIVE: {
-      label: "Active",
-      badge:
-        "bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800/50",
-      icon: <CheckCircle2 className="h-4 w-4" />,
-    },
-    COMPLETED: {
-      label: "COMPLETED",
-      badge:
-        "bg-gray-100 dark:bg-gray-950/60 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-800/50",
-      icon: <CheckCircle2 className="h-4 w-4" />,
-    },
-    CANCELLED: {
-      label: "CANCELLED",
-      badge:
-        "bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800/50",
-      icon: <CheckCircle2 className="h-4 w-4" />,
-    },
-  } as const;
 
   const currentStatus =
     statusConfig[status as keyof typeof statusConfig] ?? statusConfig.PENDING;
@@ -267,9 +228,7 @@ export default async function RentalRequestDetailsPage({
           {/* Rental Info */}
           <div className="lg:col-span-1">
             <div className="sticky top-8 space-y-5">
-              {/* Price & Action Card */}
               <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-lg p-6 space-y-5">
-                {/* Price */}
                 <div className="space-y-1 border-b border-slate-100 dark:border-slate-800 pb-5">
                   <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
                     Rental Price
@@ -284,7 +243,6 @@ export default async function RentalRequestDetailsPage({
                   </div>
                 </div>
 
-                {/* Request Dates */}
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
                     <Calendar className="h-4 w-4 shrink-0" />
@@ -306,34 +264,33 @@ export default async function RentalRequestDetailsPage({
                   </div>
                 </div>
 
-                {/* Status-based Action Button */}
                 <div>
                   {status === "APPROVED" ? (
                     <PayNowButton rentalRequestId={request.id} />
                   ) : status === "REJECTED" ? (
-                    <div className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800/40">
+                    <div className="flex w-full items-center justify-center gap-2 rounded-2xl border border-rose-600 bg-rose-100 py-3 text-sm font-semibold text-rose-700 dark:border-rose-500 dark:bg-rose-900/30 dark:text-rose-400">
                       <XCircle className="h-4 w-4" />
                       Rejected
                     </div>
                   ) : status === "ACTIVE" ? (
-                    <div className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/40">
+                    <div className="flex w-full items-center justify-center gap-2 rounded-2xl border border-blue-600 bg-blue-100 py-3 text-sm font-semibold text-blue-700 dark:border-blue-500 dark:bg-blue-900/30 dark:text-blue-400">
                       <CheckCircle className="h-4 w-4" />
                       Active
                     </div>
                   ) : status === "COMPLETED" ? (
-                    <div className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold bg-gray-50 dark:bg-gray-950/50 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-800/40">
+                    <div className="flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-600 bg-slate-100 py-3 text-sm font-semibold text-slate-700 dark:border-slate-500 dark:bg-slate-900/30 dark:text-slate-300">
                       <CheckCircle className="h-4 w-4" />
                       Completed
                     </div>
                   ) : status === "CANCELLED" ? (
-                    <div className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/40">
+                    <div className="flex w-full items-center justify-center gap-2 rounded-2xl border border-orange-600 bg-orange-100 py-3 text-sm font-semibold text-orange-700 dark:border-orange-500 dark:bg-orange-900/30 dark:text-orange-400">
                       <XCircle className="h-4 w-4" />
                       Cancelled
                     </div>
                   ) : (
-                    <div className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/40">
+                    <div className="flex w-full items-center justify-center gap-2 rounded-2xl border border-yellow-600 bg-yellow-100 py-3 text-sm font-semibold text-yellow-700 dark:border-yellow-500 dark:bg-yellow-900/30 dark:text-yellow-400">
                       <Clock className="h-4 w-4" />
-                      In Review
+                      Pending
                     </div>
                   )}
                 </div>
@@ -378,7 +335,7 @@ export default async function RentalRequestDetailsPage({
                       </span>
                       <span
                         className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                          payment.status === "SUCCESS"
+                          payment.status === "COMPLETED"
                             ? "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300"
                             : payment.status === "FAILED"
                               ? "bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300"
@@ -395,16 +352,6 @@ export default async function RentalRequestDetailsPage({
                         </span>
                         <span className="font-semibold text-slate-800 dark:text-slate-200">
                           {formatDate(payment.paidAt)}
-                        </span>
-                      </div>
-                    )}
-                    {payment.currentPeriodEnd && (
-                      <div className="flex justify-between">
-                        <span className="text-slate-500 dark:text-slate-400">
-                          Period End
-                        </span>
-                        <span className="font-semibold text-slate-800 dark:text-slate-200">
-                          {formatDate(payment.currentPeriodEnd)}
                         </span>
                       </div>
                     )}
