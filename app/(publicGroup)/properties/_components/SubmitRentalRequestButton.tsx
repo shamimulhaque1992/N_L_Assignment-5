@@ -18,11 +18,14 @@ const SubmitRentalRequestButton = ({
     null,
   );
   useEffect(() => {
-    if (!state.success) {
-      toast.error(state.message || "Something went wrong");
+    if (!state?.success) {
+      if (state?.message) {
+        toast.error(state?.message);
+      }
+      return;
     }
-    if (state.success) {
-      toast.success(state.message || "Rental request submitted successfully");
+    if (state?.success) {
+      toast.success(state?.message || "Rental request submitted successfully");
     }
   }, [state]);
   return (

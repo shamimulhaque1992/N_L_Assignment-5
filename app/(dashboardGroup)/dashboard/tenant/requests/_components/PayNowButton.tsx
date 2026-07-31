@@ -17,8 +17,8 @@ export default function PayNowButton({
 
   useEffect(() => {
     if (!state) return;
-    if (!state.success) {
-      toast.error(state.message || "failed to start checkout");
+    if (!state?.success) {
+      toast.error(state?.message || "failed to start checkout");
     }
   }, [state]);
 

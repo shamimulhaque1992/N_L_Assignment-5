@@ -22,10 +22,10 @@ const RegisterForm = () => {
 
   useEffect(() => {
     if (!state?.success) return;
-    if (state.success) {
+    if (state?.success) {
       toast.success(state.message);
     }
-    if (!state.success) {
+    if (!state?.success) {
       toast.error(state.message);
     }
   }, [state]);

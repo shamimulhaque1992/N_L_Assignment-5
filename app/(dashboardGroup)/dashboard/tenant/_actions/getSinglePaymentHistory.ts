@@ -16,6 +16,5 @@ export const getSinglePaymentHistory = async (paymentId: string) => {
   );
 
   const result = await res.json();
-  console.log(result, "result");
   return result;
 };

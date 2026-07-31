@@ -1,9 +1,9 @@
 "use server";
 
-import { getNewAccessToken } from "@/service/getNewAccessToken";
+import { validateAccessToken } from "@/service/validateAccessToken";
 
 export const getSingleProperty = async (propertyId: string) => {
-  const accessToken = getNewAccessToken();
+  const accessToken = await validateAccessToken();
 
   const res = await fetch(
     `${process.env.BACKEND_API_URL}/properties/${propertyId}`,
@@ -18,11 +18,11 @@ export const getSingleProperty = async (propertyId: string) => {
       },
     },
   );
+  const result = await res.json();
 
-  if (!res.ok) {
+  if (!result?.success) {
     throw new Error("Failed to fetch single property");
   }
 
-  const data = await res.json();
-  return data;
+  return result;
 };

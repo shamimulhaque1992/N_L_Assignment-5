@@ -17,6 +17,5 @@ export const getAllPaymentHistories = async ({
   });
 
   const result = await res.json();
-  console.log(result, "result");
   return result;
 };
