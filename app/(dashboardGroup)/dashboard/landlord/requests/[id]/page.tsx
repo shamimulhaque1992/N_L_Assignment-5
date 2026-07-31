@@ -87,6 +87,12 @@ export default async function LandlordRentalRequestDetailsPage({
         "bg-gray-100 dark:bg-gray-950/60 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-800/50",
       icon: <CheckCircle2 className="h-4 w-4" />,
     },
+    CANCELLED: {
+      label: "Cancelled",
+      badge:
+        "bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800/50",
+      icon: <CheckCircle2 className="h-4 w-4" />,
+    },
   } as const;
 
   const currentStatus =

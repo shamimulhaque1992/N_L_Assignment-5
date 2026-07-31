@@ -30,7 +30,13 @@ const LoginForm = () => {
       toast.success(state.message);
       return;
     }
-    toast.error(state.message);
+
+    if (!state.success) {
+      if (state.message) {
+        toast.error(state.message);
+      }
+      return;
+    }
   }, [state]);
 
   return (

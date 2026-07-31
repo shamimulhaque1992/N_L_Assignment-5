@@ -88,6 +88,12 @@ export default async function RentalRequestDetailsPage({
         "bg-gray-100 dark:bg-gray-950/60 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-800/50",
       icon: <CheckCircle2 className="h-4 w-4" />,
     },
+    CANCELLED: {
+      label: "CANCELLED",
+      badge:
+        "bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800/50",
+      icon: <CheckCircle2 className="h-4 w-4" />,
+    },
   } as const;
 
   const currentStatus =
@@ -318,6 +324,11 @@ export default async function RentalRequestDetailsPage({
                     <div className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold bg-gray-50 dark:bg-gray-950/50 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-800/40">
                       <CheckCircle className="h-4 w-4" />
                       Completed
+                    </div>
+                  ) : status === "CANCELLED" ? (
+                    <div className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/40">
+                      <XCircle className="h-4 w-4" />
+                      Cancelled
                     </div>
                   ) : (
                     <div className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-semibold bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/40">

@@ -5,7 +5,7 @@ import { validateAccessToken } from "@/service/validateAccessToken";
 export const getAllRentalRequests = async ({
   query,
 }: {
-  query: { [key: string]: string | string[] | undefined };
+  query?: { [key: string]: string | string[] | undefined };
 }) => {
   const accessToken = await validateAccessToken();
 

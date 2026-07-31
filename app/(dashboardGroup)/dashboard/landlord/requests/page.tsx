@@ -36,7 +36,9 @@ const columns: TableColumn<RentalRequest>[] = [
     render: (item) => (
       <div className="flex flex-col">
         <span className="font-medium text-sm">{item?.tenant?.name}</span>
-        <span className="text-xs text-muted-foreground">{item?.tenant?.email}</span>
+        <span className="text-xs text-muted-foreground">
+          {item?.tenant?.email}
+        </span>
       </div>
     ),
   },
@@ -50,11 +52,13 @@ const columns: TableColumn<RentalRequest>[] = [
             ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-600"
             : item.status === "ACTIVE"
               ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border border-blue-600"
-              : item.status === "REJECTED"
+              : item.status === "CANCELLED"
                 ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-600"
-                : item.status === "PENDING"
-                  ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-600"
-                  : "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400 border border-gray-600"
+                : item.status === "REJECTED"
+                  ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-600"
+                  : item.status === "PENDING"
+                    ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-600"
+                    : "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400 border border-gray-600"
         }`}
       >
         {item.status}
@@ -75,7 +79,6 @@ const columns: TableColumn<RentalRequest>[] = [
   },
 ];
 
-// ─── Page (Server Component) ──────────────────────────────────────────────────
 const AllPropertyRequestDashboardPage = async () => {
   const result = await getAllRentalRequests({ query: {} });
 
