@@ -258,7 +258,7 @@ export default async function RentalRequestDetailsPage({
             )}
           </div>
 
-          {/* Right — Summary Sidebar */}
+          {/* Rental Info */}
           <div className="lg:col-span-1">
             <div className="sticky top-8 space-y-5">
               {/* Price & Action Card */}
