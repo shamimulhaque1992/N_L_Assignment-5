@@ -13,11 +13,7 @@ export const getAllRentalRequests = async ({
     headers: {
       Cookie: `accessToken=${accessToken}`,
     },
-    cache: "force-cache",
-    next: {
-      revalidate: 60 * 60 * 24,
-      tags: ["rental-requests"],
-    },
+    cache: "no-cache",
   });
 
   const result = await res.json();
