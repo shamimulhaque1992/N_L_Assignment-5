@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect } from "react";
 import { createAPropertyRequest } from "../_actions/createAPropertyRequest";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
+import { toast } from "sonner";
 
 const SubmitRentalRequestButton = ({
   isAvailable,
@@ -12,8 +13,18 @@ const SubmitRentalRequestButton = ({
   isAvailable: boolean;
   propetyId: string;
 }) => {
-  const [state, action, pending] = useActionState(createAPropertyRequest.bind(null, propetyId), null);
-
+  const [state, action, pending] = useActionState(
+    createAPropertyRequest.bind(null, propetyId),
+    null,
+  );
+  useEffect(() => {
+    if (!state.success) {
+      toast.error(state.message || "Something went wrong");
+    }
+    if (state.success) {
+      toast.success(state.message || "Rental request submitted successfully");
+    }
+  }, [state]);
   return (
     <form action={action}>
       <Button

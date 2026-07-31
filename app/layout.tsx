@@ -52,7 +52,7 @@ export default async function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <Toaster />
+        <Toaster position="top-right" richColors />
 
         {children}
       </body>
