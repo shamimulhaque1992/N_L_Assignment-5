@@ -8,6 +8,8 @@ const statusStyles: Record<string, string> = {
   // Green
   APPROVED:
     "border-emerald-600 bg-emerald-100 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-500 dark:bg-emerald-900/30 dark:text-emerald-400",
+  UNBAN:
+    "border-emerald-600 bg-emerald-100 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-500 dark:bg-emerald-900/30 dark:text-emerald-400",
 
   AVAILABLE:
     "border-green-600 bg-green-100 text-green-700 hover:bg-green-100 dark:border-green-500 dark:bg-green-900/30 dark:text-green-400",
@@ -29,6 +31,8 @@ const statusStyles: Record<string, string> = {
 
   // Reds
   FAILED:
+    "border-red-600 bg-red-100 text-red-700 hover:bg-red-100 dark:border-red-500 dark:bg-red-900/30 dark:text-red-400",
+  BAN:
     "border-red-600 bg-red-100 text-red-700 hover:bg-red-100 dark:border-red-500 dark:bg-red-900/30 dark:text-red-400",
 
   REJECTED:

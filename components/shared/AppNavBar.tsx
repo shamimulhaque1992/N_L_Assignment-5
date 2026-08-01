@@ -58,14 +58,15 @@ const profileMenuSections = [
 ] as const;
 
 export function AppNavBar({ user }: { user: IUser }) {
+  console.log(user,"user")
   const router = useRouter();
   const handleUserMenuAction = async (action: string) => {
     if (action === "Dashboard") {
-      if (user.data.role === "TENANT") {
+      if (user?.data?.role === "TENANT") {
         router.push("/dashboard/tenant");
-      } else if (user.data.role === "LANDLORD") {
+      } else if (user?.data?.role === "LANDLORD") {
         router.push("/dashboard/landlord");
-      } else if (user.data.role === "ADMIN") {
+      } else if (user?.data?.role === "ADMIN") {
         router.push("/dashboard/admin");
       }
     }

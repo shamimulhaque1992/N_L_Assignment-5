@@ -19,11 +19,11 @@ export default function DashboardSidebar({ user }: { user: IUser }) {
   const pathname = usePathname();
 
   let navItems: ISidebarItems[] = [];
-  if (user.data.role === "ADMIN") {
+  if (user?.data?.role === "ADMIN") {
     navItems = sidebarMenuItems.ADMIN;
-  } else if (user.data.role === "LANDLORD") {
+  } else if (user?.data?.role === "LANDLORD") {
     navItems = sidebarMenuItems.LANDLORD;
-  } else if (user.data.role === "TENANT") {
+  } else if (user?.data?.role === "TENANT") {
     navItems = sidebarMenuItems.TENANT;
   }
 

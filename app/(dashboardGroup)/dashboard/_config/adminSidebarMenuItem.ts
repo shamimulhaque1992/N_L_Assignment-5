@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users } from "lucide-react";
+import { Handshake, LayoutDashboard, Users } from "lucide-react";
 import { ISidebarItems } from "./sidebarTypes";
 
 export const ADMIN_MENU_ITEMS: ISidebarItems[] = [
@@ -11,5 +11,10 @@ export const ADMIN_MENU_ITEMS: ISidebarItems[] = [
     lebel: "Users",
     href: "/dashboard/admin/users",
     icon: Users,
+  },
+  {
+    lebel: "All Rental Requests",
+    href: "/dashboard/admin/requests",
+    icon: Handshake,
   },
 ];

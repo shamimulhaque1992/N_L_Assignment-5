@@ -51,9 +51,12 @@ export async function proxy(request: NextRequest) {
   }
 
   let userRole = null;
+  let userStatus = null;
 
   if (decodedAccessToken?.success && typeof decodedAccessToken !== "string") {
+    console.log(decodedAccessToken, "decodedAccessToken");
     userRole = (decodedAccessToken.data as JwtPayload).role;
+    userStatus = (decodedAccessToken.data as JwtPayload).status;
   }
 
   // if user is authenticated but he is trying to go to auth route then redirect them
@@ -93,6 +96,16 @@ export async function proxy(request: NextRequest) {
     userRole !== "LANDLORD"
   ) {
     return NextResponse.redirect(new URL("/not-found", request.url));
+  }
+
+  if (
+    (userRole === "TENANT" || userRole === "LANDLORD") &&
+    userStatus === "BAN"
+  ) {
+    cookieStore.delete("accessToken");
+    cookieStore.delete("refreshToken");
+    const loginUrl = new URL("/auth/login", request.url);
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
