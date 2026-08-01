@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import SubmitRentalRequestButton from "../_components/SubmitRentalRequestButton";
 import { Review } from "@/lib/types";
+import { validateAccessToken } from "@/service/validateAccessToken";
 
 interface PropertyDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -28,6 +29,7 @@ export default async function PropertyDetailsPage({
   params,
 }: PropertyDetailsPageProps) {
   const { id } = await params;
+  const accessToken = await validateAccessToken();
   const response = await getSingleProperty(id);
   const property = response?.data;
 
@@ -296,10 +298,19 @@ export default async function PropertyDetailsPage({
 
               {/* Submit Request Button */}
 
-              <SubmitRentalRequestButton
-                isAvailable={isAvailable}
-                propetyId={id}
-              />
+              {accessToken ? (
+                <SubmitRentalRequestButton
+                  isAvailable={isAvailable}
+                  propetyId={id}
+                />
+              ) : (
+                <Link
+                  href="/auth/login"
+                  className="w-full h-12 text-sm font-semibold rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-500/20 transition-all flex items-center justify-center gap-2"
+                >
+                  Login to Submit Request
+                </Link>
+              )}
 
               {/* Features List */}
               <div className="space-y-3 pt-2">
