@@ -5,7 +5,7 @@ import { revalidateTag } from "next/cache";
 
 export const updateRentalRequestStatus = async (
   rentalId: string,
-  status: "APPROVED" | "REJECTED" | "CANCELED",
+  status: "APPROVED" | "REJECTED" | "CANCELED" | "COMPLETED" | "ACTIVE",
 ) => {
   const accessToken = await validateAccessToken();
 
@@ -27,7 +27,7 @@ export const updateRentalRequestStatus = async (
   const result = await res.json();
 
   if (result.success) {
-    revalidateTag("rentals-requests", "max");
+    revalidateTag("rentals-requests", { expire: 0 });
   }
   return result;
 };

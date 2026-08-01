@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 interface UpdateRentalRequestButtonProps {
   rentalId: string;
-  status: "APPROVED" | "REJECTED";
+  status: "APPROVED" | "REJECTED" | "COMPLETED" | "ACTIVE";
 }
 
 export default function UpdateRentalRequestButton({
@@ -28,6 +28,7 @@ export default function UpdateRentalRequestButton({
   }, [state, status]);
 
   const isApprove = status === "APPROVED";
+  const isCompleted = status === "COMPLETED";
 
   return (
     <form action={action}>
@@ -35,21 +36,33 @@ export default function UpdateRentalRequestButton({
         type="submit"
         disabled={pending}
         size="sm"
-        variant={isApprove ? "default" : "destructive"}
+        variant={
+          isApprove ? "default" : isCompleted ? "outline" : "destructive"
+        }
         className={`flex items-center gap-1.5 ${
           isApprove
-            ? "bg-emerald-600 hover:bg-emerald-700 text-white"
-            : "bg-rose-600 hover:bg-rose-700 text-white"
+            ? "bg-emerald-600 hover:bg-emerald-700 text-white hover:text-white"
+            : isCompleted
+              ? "bg-blue-600 hover:bg-blue-700 text-white hover:text-white"
+              : "bg-rose-600 hover:bg-rose-700 text-white hover:text-white "
         }`}
       >
         {pending ? (
           <Loader2 className="h-4 w-4 animate-spin" />
         ) : isApprove ? (
           <CheckCircle2 className="h-4 w-4" />
+        ) : isCompleted ? (
+          <XCircle className="h-4 w-4" />
         ) : (
           <XCircle className="h-4 w-4" />
         )}
-        {pending ? "Processing…" : isApprove ? "Approve" : "Reject"}
+        {pending
+          ? "Processing…"
+          : isApprove
+            ? "Approve"
+            : isCompleted
+              ? "Mark as completed"
+              : "Reject"}
       </Button>
     </form>
   );

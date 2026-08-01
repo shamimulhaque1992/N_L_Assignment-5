@@ -120,7 +120,7 @@ const UpdatePropertyForm = ({
         <Input
           id="update-address"
           name="address"
-          defaultValue={item.location}
+          defaultValue={item.location as string}
           required
         />
       </div>

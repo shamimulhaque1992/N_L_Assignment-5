@@ -37,6 +37,11 @@ const LandlordTableActionButtons = ({ item }: { item: RentalRequest }) => {
           <UpdateRentalRequestButton rentalId={item.id} status="REJECTED" />
         </>
       )}
+      {item.status === "ACTIVE" && (
+        <>
+          <UpdateRentalRequestButton rentalId={item.id} status="COMPLETED" />
+        </>
+      )}
     </div>
   );
 };

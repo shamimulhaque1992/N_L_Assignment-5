@@ -1,16 +1,26 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Ban, Eye } from "lucide-react";
+import { Ban, Eye, Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { startTransition, useActionState, useEffect } from "react";
 import { cancelARentalRequest } from "../../_actions/cancleARentalRequest";
-type RentalRequest = {
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import SubmitAReviewForm from "./SubmitAReviewForm";
+export type RentalRequest = {
   id: string;
   propertyId: string;
   status: string;
   createdAt: string;
   property: {
+    id: string;
     title: string;
   };
   [key: string]: unknown;
@@ -58,6 +68,28 @@ const TenantTableActionButtons = ({ item }: { item: RentalRequest }) => {
           {pending ? "Cancelling..." : "Cancel"}
         </Button>
       )}
+
+      <Dialog>
+        <DialogTrigger asChild disabled={item.status !== "COMPLETED"}>
+          <Button
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-1.5"
+          >
+            <Pencil className="h-4 w-4" />
+            Submit a review
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Submit a review</DialogTitle>
+            <DialogDescription>
+              Please share your feedback about your experience with this property.
+            </DialogDescription>
+          </DialogHeader>
+          <SubmitAReviewForm request={item} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
