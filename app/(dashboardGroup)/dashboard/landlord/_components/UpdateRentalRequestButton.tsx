@@ -21,9 +21,13 @@ export default function UpdateRentalRequestButton({
   );
 
   useEffect(() => {
-    if (!state?.success) return;
+    if (!state) return;
     if (state?.success) {
       toast.success(`Rental request ${status.toLowerCase()} successfully`);
+    }
+
+    if (!state?.success) {
+      toast.error(state?.message || "Something went wrong");
     }
   }, [state, status]);
 

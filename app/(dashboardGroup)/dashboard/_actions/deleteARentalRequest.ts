@@ -3,13 +3,13 @@
 import { validateAccessToken } from "@/service/validateAccessToken";
 import { revalidateTag } from "next/cache";
 
-export const cancelARentalRequest = async (rentalId: string) => {
+export const deleteARentalRequest = async (rentalId: string) => {
   const accessToken = await validateAccessToken();
 
   const res = await fetch(
-    `${process.env.BACKEND_API_URL}/rentals/${rentalId}/cancel`,
+    `${process.env.BACKEND_API_URL}/rentals/${rentalId}`,
     {
-      method: "PATCH",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Cookie: `accessToken=${accessToken}`,

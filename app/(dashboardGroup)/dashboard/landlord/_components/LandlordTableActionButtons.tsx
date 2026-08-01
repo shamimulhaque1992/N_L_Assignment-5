@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import UpdateRentalRequestButton from "./UpdateRentalRequestButton";
+import DeleteARentalRequestButtons from "./DeleteARentalRequestButtons";
 
 type RentalRequest = {
   id: string;
@@ -11,6 +12,7 @@ type RentalRequest = {
   status: string;
   createdAt: string;
   property: {
+    id: string;
     title: string;
   };
   [key: string]: unknown;
@@ -42,6 +44,7 @@ const LandlordTableActionButtons = ({ item }: { item: RentalRequest }) => {
           <UpdateRentalRequestButton rentalId={item.id} status="COMPLETED" />
         </>
       )}
+      <DeleteARentalRequestButtons item={item} />
     </div>
   );
 };
