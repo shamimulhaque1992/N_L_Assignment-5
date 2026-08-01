@@ -54,7 +54,7 @@ export default async function LandlordRentalRequestDetailsPage({
     );
   }
 
-  const { property, tenant, payment, status } = request;
+  const { property, tenant, payment, status, message } = request;
 
   const statusConfig = {
     PENDING: {
@@ -226,6 +226,28 @@ export default async function LandlordRentalRequestDetailsPage({
                 </div>
               </div>
             )}
+            {message && (
+              <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 space-y-4">
+                <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+                  Message
+                </h3>
+                <div className="flex items-start gap-4">
+                  <div className="h-12 w-12 rounded-2xl overflow-hidden bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center text-emerald-600 dark:text-emerald-300 shrink-0 border border-emerald-200 dark:border-emerald-800/60">
+                    <Mail className="h-6 w-6" />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                      Request Message
+                    </p>
+                    <div className="flex flex-wrap gap-4 text-xs text-slate-500 dark:text-slate-400">
+                      <div className="flex items-center gap-1">
+                        <span>{message}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Right — Summary Sidebar */}
@@ -351,16 +373,6 @@ export default async function LandlordRentalRequestDetailsPage({
                         </span>
                         <span className="font-semibold text-slate-800 dark:text-slate-200">
                           {formatDate(payment.paidAt)}
-                        </span>
-                      </div>
-                    )}
-                    {payment.currentPeriodEnd && (
-                      <div className="flex justify-between">
-                        <span className="text-slate-500 dark:text-slate-400">
-                          Period End
-                        </span>
-                        <span className="font-semibold text-slate-800 dark:text-slate-200">
-                          {formatDate(payment.currentPeriodEnd)}
                         </span>
                       </div>
                     )}
