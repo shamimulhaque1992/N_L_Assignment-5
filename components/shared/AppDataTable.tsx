@@ -42,18 +42,18 @@ const AppDataTable = <T extends Record<string, unknown>>({
 
         {/* ── Body ── */}
         <TableBody>
-          {tableData.length === 0 ? (
+          {tableData && tableData?.length === 0 ? (
             // Empty state
             <TableRow>
               <TableCell
-                colSpan={tableHeader.length}
+                colSpan={tableHeader?.length}
                 className="text-center py-10 text-muted-foreground"
               >
                 No data found.
               </TableCell>
             </TableRow>
           ) : (
-            tableData.map((item, rowIndex) => (
+            tableData?.map((item, rowIndex) => (
               <TableRow key={rowIndex}>
                 {tableHeader.map((col) => (
                   <TableCell key={col.slug}>

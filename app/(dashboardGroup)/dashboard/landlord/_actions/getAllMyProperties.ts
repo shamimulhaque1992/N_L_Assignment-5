@@ -2,7 +2,7 @@
 
 import { validateAccessToken } from "@/service/validateAccessToken";
 
-export const getAllProperties = async ({
+export const getAllMyProperties = async ({
   query,
 }: {
   query?: { [key: string]: string | string[] | undefined };
@@ -51,7 +51,7 @@ export const getAllProperties = async ({
   }
 
   const res = await fetch(
-    `${process.env.BACKEND_API_URL}/properties?${params.toString()}`,
+    `${process.env.BACKEND_API_URL}/properties/my-properties?${params.toString()}`,
     {
       headers: {
         Cookie: `accessToken=${accessToken}`,

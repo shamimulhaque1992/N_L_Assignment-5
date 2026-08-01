@@ -54,7 +54,6 @@ export async function proxy(request: NextRequest) {
   let userStatus = null;
 
   if (decodedAccessToken?.success && typeof decodedAccessToken !== "string") {
-    console.log(decodedAccessToken, "decodedAccessToken");
     userRole = (decodedAccessToken.data as JwtPayload).role;
     userStatus = (decodedAccessToken.data as JwtPayload).status;
   }

@@ -58,7 +58,6 @@ const profileMenuSections = [
 ] as const;
 
 export function AppNavBar({ user }: { user: IUser }) {
-  console.log(user,"user")
   const router = useRouter();
   const handleUserMenuAction = async (action: string) => {
     if (action === "Dashboard") {
@@ -128,6 +127,9 @@ export function AppNavBar({ user }: { user: IUser }) {
                       <span>{user?.data?.name}</span>
                       <span className="text-xs font-normal text-muted-foreground">
                         {user?.data?.email}
+                      </span>
+                      <span className="text-xs font-normal text-muted-foreground">
+                        {user?.data?.role}
                       </span>
                     </span>
                   </DropdownMenuLabel>

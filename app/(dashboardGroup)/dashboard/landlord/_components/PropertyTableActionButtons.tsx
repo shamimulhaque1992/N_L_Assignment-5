@@ -23,7 +23,7 @@ export type Property = {
   title: string;
   description: string;
   price: number;
-  location: string;
+  address: string;
   amenities: string[];
   category: {
     id: string;

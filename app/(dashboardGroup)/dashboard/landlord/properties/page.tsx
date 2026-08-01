@@ -1,9 +1,9 @@
 import AppDataTable, { TableColumn } from "@/components/shared/AppDataTable";
 import React from "react";
-import { getAllProperties } from "@/app/(publicGroup)/properties/_actions/getAllProperties";
 import { getAllCategories } from "@/app/(publicGroup)/properties/_actions/getAllCategories";
 import Link from "next/link";
 import PropertyTableActionButtons from "../_components/PropertyTableActionButtons";
+import { getAllMyProperties } from "../_actions/getAllMyProperties";
 
 type Property = {
   id: string;
@@ -11,7 +11,7 @@ type Property = {
   description: string;
   price: number;
   type: string;
-  location: string;
+  address: string;
   status: string;
   createdAt: string;
   updatedAt: string;
@@ -29,7 +29,7 @@ type Property = {
 
 const LandLordAllMyPropertiesDashboardPage = async () => {
   const [result, categoriesResult] = await Promise.all([
-    getAllProperties({ query: {} }),
+    getAllMyProperties({ query: {} }),
     getAllCategories(),
   ]);
   const categories = categoriesResult?.data ?? [];
@@ -52,8 +52,8 @@ const LandLordAllMyPropertiesDashboardPage = async () => {
     },
     {
       label: "Location",
-      slug: "location",
-      render: (item) => <span>{item?.location}</span>,
+      slug: "address",
+      render: (item) => <span>{item?.address}</span>,
     },
     {
       label: "Price",
