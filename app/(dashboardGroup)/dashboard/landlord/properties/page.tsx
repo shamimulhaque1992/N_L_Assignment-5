@@ -8,8 +8,9 @@ import AppSearchBar from "@/components/shared/AppSearchBar";
 import AppFilter, { FilterField } from "@/components/shared/AppFilter";
 import AppPagination from "@/components/shared/AppPagination";
 import { ICategory } from "@/lib/types";
+import PropertyTableAvailabilityToggler from "../_components/PropertyTableAvailabilityToggler";
 
-type Property = {
+export type Property = {
   id: string;
   title: string;
   description: string;
@@ -143,6 +144,11 @@ const LandLordAllMyPropertiesDashboardPage = async ({
       render: (item) => (
         <span>{new Date(item.createdAt).toLocaleDateString()}</span>
       ),
+    },
+    {
+      label: "Availability",
+      slug: "available",
+      render: (item) => <PropertyTableAvailabilityToggler item={item} />,
     },
     {
       label: "Action",

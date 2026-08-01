@@ -57,6 +57,9 @@ export const getAllMyProperties = async ({
         Cookie: `accessToken=${accessToken}`,
       },
       cache: "no-store",
+      next: {
+        tags: ["my-properties"],
+      },
     },
   );
 

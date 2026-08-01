@@ -46,7 +46,6 @@ export const createANewProperty = async (
     amenities,
     categoryId,
   };
-  console.log("🚀 ~ createANewProperty ~ body:", body);
 
   const res = await fetch(`${process.env.BACKEND_API_URL}/properties`, {
     method: "POST",
