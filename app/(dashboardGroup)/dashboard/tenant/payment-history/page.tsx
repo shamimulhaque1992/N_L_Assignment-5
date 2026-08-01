@@ -4,6 +4,9 @@ import AppDataTable, { TableColumn } from "@/components/shared/AppDataTable";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import AppStatusBadge from "@/components/shared/AppBadge";
+import AppSearchBar from "@/components/shared/AppSearchBar";
+import AppFilter, { FilterField } from "@/components/shared/AppFilter";
+import AppPagination from "@/components/shared/AppPagination";
 
 type Payment = {
   id: string;
@@ -88,8 +91,36 @@ const columns: TableColumn<Payment>[] = [
   },
 ];
 
-const AllPaymentsDashboardPage = async () => {
-  const result = await getAllPaymentHistories({ query: {} });
+const filterFields: FilterField[] = [
+  {
+    type: "single-checkbox",
+    label: "Payment Status",
+    paramKey: "status",
+    options: [
+      { label: "Pending", value: "PENDING" },
+      { label: "Completed", value: "COMPLETED" },
+      { label: "Failed", value: "FAILED" },
+      { label: "Refunded", value: "REFUNDED" },
+    ],
+  },
+  {
+    type: "single-checkbox",
+    label: "Sort By Date",
+    paramKey: "createdAt",
+    options: [
+      { label: "Newest First", value: "DESC" },
+      { label: "Oldest First", value: "ASC" },
+    ],
+  },
+];
+
+const AllPaymentsDashboardPage = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
+  const query = await searchParams;
+  const result = await getAllPaymentHistories({ query });
 
   const payments: Payment[] = result?.data ?? [];
 
@@ -103,7 +134,19 @@ const AllPaymentsDashboardPage = async () => {
         </p>
       </div>
 
+      {/* Search & Filter Bar */}
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <AppSearchBar placeholder="Search by property or provider..." />
+        <AppFilter fields={filterFields} />
+      </div>
+
       <AppDataTable tableHeader={columns} tableData={payments} />
+
+      <AppPagination
+        page={result?.meta?.page}
+        limit={result?.meta?.limit}
+        total={result?.meta?.total}
+      />
     </div>
   );
 };

@@ -2,8 +2,8 @@ import AppDataTable, { TableColumn } from "@/components/shared/AppDataTable";
 import React from "react";
 import { getAllCategories } from "@/app/(publicGroup)/properties/_actions/getAllCategories";
 import Link from "next/link";
-import PropertyTableActionButtons from "../_components/PropertyTableActionButtons";
-import { getAllMyProperties } from "../_actions/getAllMyProperties";
+import { getAllProperties } from "@/app/(publicGroup)/properties/_actions/getAllProperties";
+import PropertyTableActionButtons from "../../landlord/_components/PropertyTableActionButtons";
 import AppSearchBar from "@/components/shared/AppSearchBar";
 import AppFilter, { FilterField } from "@/components/shared/AppFilter";
 import AppPagination from "@/components/shared/AppPagination";
@@ -31,14 +31,14 @@ type Property = {
   [key: string]: unknown;
 };
 
-const LandLordAllMyPropertiesDashboardPage = async ({
+const AdminAllPropertiesDashboardPage = async ({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   const query = await searchParams;
   const [result, categoriesResult] = await Promise.all([
-    getAllMyProperties({ query }),
+    getAllProperties({ query }),
     getAllCategories(),
   ]);
   const categories = categoriesResult?.data ?? [];
@@ -161,7 +161,7 @@ const LandLordAllMyPropertiesDashboardPage = async ({
             Rental Properties
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
-            All rental properties you have listed are shown below.
+            All rental properties have listed are shown below.
           </p>
         </div>
 
@@ -177,7 +177,7 @@ const LandLordAllMyPropertiesDashboardPage = async ({
 
       {/* Search & Filter Bar */}
       <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-        <AppSearchBar placeholder="Search by title or location..." />
+        <AppSearchBar placeholder="Search by title, location..." />
         <AppFilter fields={filterFields} />
       </div>
 
@@ -192,4 +192,4 @@ const LandLordAllMyPropertiesDashboardPage = async ({
   );
 };
 
-export default LandLordAllMyPropertiesDashboardPage;
+export default AdminAllPropertiesDashboardPage;
