@@ -19,24 +19,62 @@ import { toast } from "sonner";
 
 const RegisterForm = () => {
   const [state, action, pending] = useActionState(registerAction, null);
+  const [role, setRole] = useState("");
+  const [errors, setErrors] = useState<{
+    name?: string;
+    email?: string;
+    password?: string;
+    phone?: string;
+    role?: string;
+  }>({});
 
   useEffect(() => {
-    if (!state?.success) return;
+    if (!state) return;
     if (state?.success) {
       toast.success(state.message);
-    }
-    if (!state?.success) {
+    } else {
       toast.error(state.message);
     }
   }, [state]);
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const formData = new FormData(e.currentTarget);
+    const name = (formData.get("name") as string || "").trim();
+    const email = (formData.get("email") as string || "").trim();
+    const password = (formData.get("password") as string || "");
+    const phone = (formData.get("phone") as string || "").trim();
+
+    const newErrors: typeof errors = {};
+
+    if (!name) newErrors.name = "Full name is required";
+    if (!email) {
+      newErrors.email = "Email is required";
+    } else if (!email.includes("@")) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+    }
+    if (!phone) newErrors.phone = "Phone number is required";
+    if (!role) newErrors.role = "Please select a role";
+
+    if (Object.keys(newErrors).length > 0) {
+      e.preventDefault();
+      setErrors(newErrors);
+    } else {
+      setErrors({});
+    }
+  };
+
   return (
-    <form action={action}>
+    <form action={action} onSubmit={handleSubmit}>
       <CardContent className="space-y-4 pt-2">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="name" className="text-sm font-medium">
-              Full Name
+              Full Name <span className="text-rose-500">*</span>
             </Label>
             <Input
               id="name"
@@ -44,12 +82,14 @@ const RegisterForm = () => {
               type="text"
               placeholder="John Doe"
               className="h-10"
-              required
             />
+            {errors.name && (
+              <p className="text-xs text-rose-500">{errors.name}</p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="email" className="text-sm font-medium">
-              Email Address
+              Email Address <span className="text-rose-500">*</span>
             </Label>
             <Input
               id="email"
@@ -57,15 +97,17 @@ const RegisterForm = () => {
               type="email"
               placeholder="name@example.com"
               className="h-10"
-              required
             />
+            {errors.email && (
+              <p className="text-xs text-rose-500">{errors.email}</p>
+            )}
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="password" className="text-sm font-medium">
-              Password
+              Password <span className="text-rose-500">*</span>
             </Label>
             <Input
               id="password"
@@ -73,12 +115,14 @@ const RegisterForm = () => {
               type="password"
               placeholder="••••••••"
               className="h-10"
-              required
             />
+            {errors.password && (
+              <p className="text-xs text-rose-500">{errors.password}</p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="phone" className="text-sm font-medium">
-              Phone Number
+              Phone Number <span className="text-rose-500">*</span>
             </Label>
             <Input
               id="phone"
@@ -86,17 +130,19 @@ const RegisterForm = () => {
               type="tel"
               placeholder="01779312970"
               className="h-10"
-              required
             />
+            {errors.phone && (
+              <p className="text-xs text-rose-500">{errors.phone}</p>
+            )}
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="role" className="text-sm font-medium">
-              Role
+              Role <span className="text-rose-500">*</span>
             </Label>
-            <Select name="role">
+            <Select name="role" value={role} onValueChange={setRole}>
               <SelectTrigger id="role" className="w-full h-10">
                 <SelectValue placeholder="Select a role" />
               </SelectTrigger>
@@ -105,6 +151,9 @@ const RegisterForm = () => {
                 <SelectItem value="TENANT">Tenant</SelectItem>
               </SelectContent>
             </Select>
+            {errors.role && (
+              <p className="text-xs text-rose-500">{errors.role}</p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="avatar" className="text-sm font-medium">
@@ -138,6 +187,7 @@ const RegisterForm = () => {
         <Button
           type="submit"
           className="w-full h-10 font-semibold cursor-pointer"
+          disabled={pending}
         >
           {pending ? "Submitting..." : "Register Account"}
         </Button>

@@ -1,5 +1,6 @@
 "use client";
-import { useActionState, useEffect } from "react";
+
+import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -21,12 +22,16 @@ export default function SubmitAReviewForm({
 }: {
   request: RentalRequest;
 }) {
-  console.log("🚀 ~ SubmitAReviewForm ~ request:", request);
   const router = useRouter();
+  const [rating, setRating] = useState("");
+  const [errors, setErrors] = useState<{ rating?: string; comment?: string }>(
+    {},
+  );
   const [state, action, pending] = useActionState(
     submitAReview.bind(null, request?.property?.id),
     null,
   );
+
   useEffect(() => {
     if (!state) return;
     if (state.success) {
@@ -36,13 +41,34 @@ export default function SubmitAReviewForm({
       toast.error(state.message || "Failed to submit review");
     }
   }, [state, router]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const formData = new FormData(e.currentTarget);
+    const comment = (formData.get("comment") as string || "").trim();
+    const newErrors: typeof errors = {};
+
+    if (!rating) newErrors.rating = "Please select a rating";
+    if (!comment) {
+      newErrors.comment = "Comment is required";
+    } else if (comment.length < 5) {
+      newErrors.comment = "Comment must be at least 5 characters";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      e.preventDefault();
+      setErrors(newErrors);
+    } else {
+      setErrors({});
+    }
+  };
+
   return (
-    <form action={action} className="space-y-5">
+    <form action={action} onSubmit={handleSubmit} className="space-y-5">
       <div className="space-y-2">
         <Label htmlFor="rating">
           Rating <span className="text-rose-500">*</span>
         </Label>
-        <Select name="rating" required>
+        <Select value={rating} onValueChange={setRating}>
           <SelectTrigger id="rating" className="w-full">
             <SelectValue placeholder="Select a rating" />
           </SelectTrigger>
@@ -54,7 +80,11 @@ export default function SubmitAReviewForm({
             <SelectItem value="1">⭐ (1)</SelectItem>
           </SelectContent>
         </Select>
+        {errors.rating && (
+          <p className="text-xs text-rose-500">{errors.rating}</p>
+        )}
       </div>
+
       <div className="space-y-2">
         <Label htmlFor="comment">
           Comment <span className="text-rose-500">*</span>
@@ -64,12 +94,15 @@ export default function SubmitAReviewForm({
           name="comment"
           placeholder="Share your experience with this property..."
           rows={5}
-          required
         />
+        {errors.comment && (
+          <p className="text-xs text-rose-500">{errors.comment}</p>
+        )}
       </div>
+
       <DialogFooter>
         <DialogClose asChild>
-          <Button type="button" variant="outline">
+          <Button type="button" variant="outline" disabled={pending}>
             Cancel
           </Button>
         </DialogClose>

@@ -31,6 +31,13 @@ export default function CreatePropertyForm({
   const router = useRouter();
   const [categoryId, setCategoryId] = useState("");
   const [state, action, pending] = useActionState(createANewProperty, null);
+  const [errors, setErrors] = useState<{
+    title?: string;
+    description?: string;
+    price?: string;
+    categoryId?: string;
+    address?: string;
+  }>({});
 
   useEffect(() => {
     if (!state) return;
@@ -42,8 +49,37 @@ export default function CreatePropertyForm({
     }
   }, [state, router]);
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const formData = new FormData(e.currentTarget);
+    const title = (formData.get("title") as string || "").trim();
+    const description = (formData.get("description") as string || "").trim();
+    const price = (formData.get("price") as string || "").trim();
+    const address = (formData.get("address") as string || "").trim();
+
+    const newErrors: typeof errors = {};
+
+    if (!title) newErrors.title = "Property title is required";
+    if (!description) {
+      newErrors.description = "Description is required";
+    } else if (description.length < 10) {
+      newErrors.description = "Description must be at least 10 characters";
+    }
+    if (!price || Number(price) <= 0) {
+      newErrors.price = "Valid price per month is required";
+    }
+    if (!categoryId) newErrors.categoryId = "Please select a category";
+    if (!address) newErrors.address = "Property address is required";
+
+    if (Object.keys(newErrors).length > 0) {
+      e.preventDefault();
+      setErrors(newErrors);
+    } else {
+      setErrors({});
+    }
+  };
+
   return (
-    <form action={action} className="space-y-6">
+    <form action={action} onSubmit={handleSubmit} className="space-y-6">
       {/* Title */}
       <div className="space-y-2">
         <Label htmlFor="title">
@@ -53,8 +89,10 @@ export default function CreatePropertyForm({
           id="title"
           name="title"
           placeholder="e.g. Peaceful Country Cottage"
-          required
         />
+        {errors.title && (
+          <p className="text-xs text-rose-500">{errors.title}</p>
+        )}
       </div>
 
       {/* Description */}
@@ -67,11 +105,13 @@ export default function CreatePropertyForm({
           name="description"
           placeholder="Describe your property..."
           rows={4}
-          required
         />
+        {errors.description && (
+          <p className="text-xs text-rose-500">{errors.description}</p>
+        )}
       </div>
 
-      {/* Price & Category — two columns */}
+      {/* Price & Category */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div className="space-y-2">
           <Label htmlFor="price">
@@ -81,23 +121,20 @@ export default function CreatePropertyForm({
             id="price"
             name="price"
             type="number"
-            min={0}
+            min={1}
             placeholder="e.g. 700"
-            required
           />
+          {errors.price && (
+            <p className="text-xs text-rose-500">{errors.price}</p>
+          )}
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="categoryId">
             Category <span className="text-rose-500">*</span>
           </Label>
-          {/* Hidden input so the form submission picks up categoryId */}
           <input type="hidden" name="categoryId" value={categoryId} />
-          <Select
-            required
-            onValueChange={(val) => setCategoryId(val)}
-            value={categoryId}
-          >
+          <Select value={categoryId} onValueChange={setCategoryId}>
             <SelectTrigger id="categoryId" className="w-full">
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
@@ -109,6 +146,9 @@ export default function CreatePropertyForm({
               ))}
             </SelectContent>
           </Select>
+          {errors.categoryId && (
+            <p className="text-xs text-rose-500">{errors.categoryId}</p>
+          )}
         </div>
       </div>
 
@@ -121,8 +161,10 @@ export default function CreatePropertyForm({
           id="address"
           name="address"
           placeholder="e.g. 56 Meadow Lane, Lancaster, PA 17601"
-          required
         />
+        {errors.address && (
+          <p className="text-xs text-rose-500">{errors.address}</p>
+        )}
       </div>
 
       {/* Amenities */}

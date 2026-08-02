@@ -27,36 +27,68 @@ const UpdatePropertyForm = ({
 }) => {
   const router = useRouter();
   const [categoryId, setCategoryId] = useState(item.category?.id ?? "");
-
   const [state, action, pending] = useActionState(
     updateAProperty.bind(null, item.id),
     null,
   );
+  const [errors, setErrors] = useState<{
+    title?: string;
+    description?: string;
+    price?: string;
+    categoryId?: string;
+    address?: string;
+  }>({});
 
   useEffect(() => {
     if (!state) return;
     if (state.success) {
       toast.success(state.message || "Property updated successfully");
-
       router.refresh();
     } else {
       toast.error(state.message || "Failed to update property");
     }
   }, [state, router]);
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const formData = new FormData(e.currentTarget);
+    const title = (formData.get("title") as string || "").trim();
+    const description = (formData.get("description") as string || "").trim();
+    const price = (formData.get("price") as string || "").trim();
+    const address = (formData.get("address") as string || "").trim();
+
+    const newErrors: typeof errors = {};
+
+    if (!title) newErrors.title = "Property title is required";
+    if (!description) {
+      newErrors.description = "Description is required";
+    } else if (description.length < 10) {
+      newErrors.description = "Description must be at least 10 characters";
+    }
+    if (!price || Number(price) <= 0) {
+      newErrors.price = "Valid price per month is required";
+    }
+    if (!categoryId) newErrors.categoryId = "Please select a category";
+    if (!address) newErrors.address = "Property address is required";
+
+    if (Object.keys(newErrors).length > 0) {
+      e.preventDefault();
+      setErrors(newErrors);
+    } else {
+      setErrors({});
+    }
+  };
+
   return (
-    <form action={action} className="space-y-4">
+    <form action={action} onSubmit={handleSubmit} className="space-y-4">
       {/* Title */}
       <div className="space-y-1">
         <Label htmlFor="update-title">
           Title <span className="text-rose-500">*</span>
         </Label>
-        <Input
-          id="update-title"
-          name="title"
-          defaultValue={item.title}
-          required
-        />
+        <Input id="update-title" name="title" defaultValue={item.title} />
+        {errors.title && (
+          <p className="text-xs text-rose-500">{errors.title}</p>
+        )}
       </div>
 
       {/* Description */}
@@ -69,8 +101,10 @@ const UpdatePropertyForm = ({
           name="description"
           defaultValue={item.description as string}
           rows={3}
-          required
         />
+        {errors.description && (
+          <p className="text-xs text-rose-500">{errors.description}</p>
+        )}
       </div>
 
       {/* Price & Category */}
@@ -83,10 +117,12 @@ const UpdatePropertyForm = ({
             id="update-price"
             name="price"
             type="number"
-            min={0}
+            min={1}
             defaultValue={item.price}
-            required
           />
+          {errors.price && (
+            <p className="text-xs text-rose-500">{errors.price}</p>
+          )}
         </div>
 
         <div className="space-y-1">
@@ -94,10 +130,7 @@ const UpdatePropertyForm = ({
             Category <span className="text-rose-500">*</span>
           </Label>
           <input type="hidden" name="categoryId" value={categoryId} />
-          <Select
-            value={categoryId}
-            onValueChange={(val) => setCategoryId(val)}
-          >
+          <Select value={categoryId} onValueChange={setCategoryId}>
             <SelectTrigger id="update-category" className="w-full">
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
@@ -109,6 +142,9 @@ const UpdatePropertyForm = ({
               ))}
             </SelectContent>
           </Select>
+          {errors.categoryId && (
+            <p className="text-xs text-rose-500">{errors.categoryId}</p>
+          )}
         </div>
       </div>
 
@@ -117,12 +153,10 @@ const UpdatePropertyForm = ({
         <Label htmlFor="update-address">
           Address <span className="text-rose-500">*</span>
         </Label>
-        <Input
-          id="update-address"
-          name="address"
-          defaultValue={item.address}
-          required
-        />
+        <Input id="update-address" name="address" defaultValue={item.address} />
+        {errors.address && (
+          <p className="text-xs text-rose-500">{errors.address}</p>
+        )}
       </div>
 
       {/* Amenities */}
@@ -159,7 +193,7 @@ const UpdatePropertyForm = ({
 
       <DialogFooter>
         <DialogClose asChild>
-          <Button type="button" variant="outline">
+          <Button type="button" variant="outline" disabled={pending}>
             Cancel
           </Button>
         </DialogClose>
