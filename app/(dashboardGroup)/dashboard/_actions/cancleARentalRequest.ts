@@ -3,7 +3,17 @@
 import { validateAccessToken } from "@/service/validateAccessToken";
 import { revalidateTag } from "next/cache";
 
-export const cancelARentalRequest = async (rentalId: string) => {
+type ActionState = {
+  success: boolean;
+  message: string;
+  statusCode: number;
+  data?: unknown;
+} | null;
+
+export const cancelARentalRequest = async (
+  _initialState: ActionState,
+  rentalId: string,
+): Promise<ActionState> => {
   const accessToken = await validateAccessToken();
 
   const res = await fetch(

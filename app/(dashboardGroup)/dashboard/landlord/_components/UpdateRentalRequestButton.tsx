@@ -1,10 +1,12 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { startTransition, useActionState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { updateRentalRequestStatus } from "@/app/(dashboardGroup)/dashboard/_actions/updateRentalRequestStatus";
 import { CheckCircle2, XCircle, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 
 interface UpdateRentalRequestButtonProps {
   rentalId: string;
@@ -15,27 +17,32 @@ export default function UpdateRentalRequestButton({
   rentalId,
   status,
 }: UpdateRentalRequestButtonProps) {
+  const router = useRouter();
   const [state, action, pending] = useActionState(
-    updateRentalRequestStatus.bind(null, rentalId, status),
+    updateRentalRequestStatus,
     null,
   );
+  console.log("🚀 ~ UpdateRentalRequestButton ~ state:", state);
 
   useEffect(() => {
     if (!state) return;
-    if (state?.success) {
-      toast.success(`Rental request ${status.toLowerCase()} successfully`);
+    if (state.success) {
+      toast.success(
+        state.message || `Rental request ${status.toLowerCase()} successfully`,
+      );
+      router.refresh();
+    } else {
+      toast.error(state.message || "Failed to update request status");
     }
-
-    if (!state?.success) {
-      toast.error(state?.message || "Something went wrong");
-    }
-  }, [state, status]);
+  }, [state, status, router]);
 
   const isApprove = status === "APPROVED";
   const isCompleted = status === "COMPLETED";
 
   return (
     <form action={action}>
+      <Input type="hidden" name="rentalId" value={rentalId} />
+      <Input type="hidden" name="status" value={status} />
       <Button
         type="submit"
         disabled={pending}
@@ -48,7 +55,7 @@ export default function UpdateRentalRequestButton({
             ? "bg-emerald-600 hover:bg-emerald-700 text-white hover:text-white"
             : isCompleted
               ? "bg-blue-600 hover:bg-blue-700 text-white hover:text-white"
-              : "bg-rose-600 hover:bg-rose-700 text-white hover:text-white "
+              : "bg-rose-600 hover:bg-rose-700 text-white hover:text-white"
         }`}
       >
         {pending ? (

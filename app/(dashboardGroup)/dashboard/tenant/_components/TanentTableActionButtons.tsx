@@ -14,6 +14,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import SubmitAReviewForm from "./SubmitAReviewForm";
+import { toast } from "sonner";
+
 export type RentalRequest = {
   id: string;
   propertyId: string;
@@ -25,12 +27,14 @@ export type RentalRequest = {
   };
   [key: string]: unknown;
 };
+
 const TenantTableActionButtons = ({ item }: { item: RentalRequest }) => {
-  const [state, action, pending] = useActionState(
-    cancelARentalRequest.bind(null, item.id),
-    false,
-  );
   const router = useRouter();
+  const [state, action, pending] = useActionState(
+    cancelARentalRequest.bind(null, null, item.id),
+    null,
+  );
+
   const handleButtonClick = (actionType: string) => {
     if (actionType === "view") {
       router.push(`/dashboard/tenant/requests/${item.id}/pay`);
@@ -41,10 +45,15 @@ const TenantTableActionButtons = ({ item }: { item: RentalRequest }) => {
   };
 
   useEffect(() => {
-    if (state) {
+    if (!state) return;
+    if (state.success) {
+      toast.success(state.message || "Rental request cancelled successfully");
       router.refresh();
+    } else {
+      toast.error(state.message || "Failed to cancel rental request");
     }
-  }, [state]);
+  }, [state, router]);
+
   return (
     <div className="flex items-center justify-start gap-2">
       <Button
@@ -62,6 +71,7 @@ const TenantTableActionButtons = ({ item }: { item: RentalRequest }) => {
           onClick={() => handleButtonClick("cancel")}
           variant="destructive"
           size="sm"
+          disabled={pending}
           className="flex items-center gap-1.5"
         >
           <Ban className="h-4 w-4" />

@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { startTransition, useActionState, useEffect } from "react";
 import {
   Dialog,
   DialogClose,
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { deleteARentalRequest } from "../../_actions/deleteARentalRequest";
 import { toast } from "sonner";
+
 export type RentalRequest = {
   id: string;
   propertyId: string;
@@ -27,22 +28,24 @@ export type RentalRequest = {
   };
   [key: string]: unknown;
 };
+
 const DeleteARentalRequestButtons = ({ item }: { item: RentalRequest }) => {
-  const [state, action, pending] = useActionState(
-    deleteARentalRequest.bind(null, item.id),
-    false,
-  );
   const router = useRouter();
+  const [state, action, pending] = useActionState(
+    deleteARentalRequest.bind(null, null, item.id),
+    null,
+  );
 
   useEffect(() => {
     if (!state) return;
     if (state.success) {
-      toast.success(state?.message ?? "Request deleted successfully");
+      toast.success(state.message || "Request deleted successfully");
       router.refresh();
     } else {
-      toast.error(state?.message ?? "Failed to delete request");
+      toast.error(state.message || "Failed to delete request");
     }
   }, [state, router]);
+
   return (
     <div className="flex items-center justify-start gap-2">
       <Dialog>
@@ -63,18 +66,18 @@ const DeleteARentalRequestButtons = ({ item }: { item: RentalRequest }) => {
             </DialogTitle>
             <DialogDescription>This action cannot be undone.</DialogDescription>
           </DialogHeader>
-          <form action={action}>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button type="button" variant="outline">
-                  Cancel
-                </Button>
-              </DialogClose>
-              <Button type="submit" disabled={pending}>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
+            </DialogClose>
+            <form action={action}>
+              <Button variant="destructive" disabled={pending}>
                 {pending ? "Deleting..." : "Delete"}
               </Button>
-            </DialogFooter>
-          </form>
+            </form>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
