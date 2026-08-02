@@ -40,7 +40,8 @@ export default function CompleteRequestButton({
   useEffect(() => {
     if (!state) return;
     if (state.success) {
-      toast.success(state.message || `Rental request  successfully`);
+      toast.success(state.message || `Rental request completed successfully`);
+      router.refresh();
     } else {
       toast.error(state.message || "Failed to update request status");
     }

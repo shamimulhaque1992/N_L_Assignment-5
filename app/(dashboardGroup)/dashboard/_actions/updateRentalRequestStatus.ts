@@ -1,7 +1,6 @@
 "use server";
 
 import { validateAccessToken } from "@/service/validateAccessToken";
-import { revalidateTag } from "next/cache";
 
 type ActionState = {
   success: boolean;
@@ -34,8 +33,5 @@ export const updateRentalRequestStatus = async (
 
   const result = await res.json();
 
-  if (result.success) {
-    revalidateTag("rentals-requests", { expire: 0 });
-  }
   return result;
 };

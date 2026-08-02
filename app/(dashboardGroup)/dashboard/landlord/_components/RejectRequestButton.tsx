@@ -41,6 +41,7 @@ export default function RejectRequestButton({
     if (!state) return;
     if (state.success) {
       toast.success(state.message || `Rental request rejected successfully`);
+      router.refresh();
     } else {
       toast.error(state.message || "Failed to update request status");
     }

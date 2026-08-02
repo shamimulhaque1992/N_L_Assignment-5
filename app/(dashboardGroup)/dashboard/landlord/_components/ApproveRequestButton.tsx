@@ -40,6 +40,7 @@ export default function ApproveRequestButton({
     if (!state) return;
     if (state.success) {
       toast.success(state.message || `Rental request approved successfully`);
+      router.refresh();
     } else {
       toast.error(state.message || "Failed to update request status");
     }
