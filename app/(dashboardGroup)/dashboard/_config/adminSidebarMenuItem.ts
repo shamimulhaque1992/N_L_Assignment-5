@@ -3,6 +3,7 @@ import {
   Handshake,
   LayoutDashboard,
   List,
+  User,
   Users,
 } from "lucide-react";
 import { ISidebarItems } from "./sidebarTypes";
@@ -32,5 +33,10 @@ export const ADMIN_MENU_ITEMS: ISidebarItems[] = [
     lebel: "All Properties Categories",
     href: "/dashboard/admin/categories",
     icon: List,
+  },
+  {
+    lebel: "Profile",
+    href: "/dashboard/admin/me",
+    icon: User,
   },
 ];

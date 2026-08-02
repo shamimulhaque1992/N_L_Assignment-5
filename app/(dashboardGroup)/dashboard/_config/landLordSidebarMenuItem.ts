@@ -1,4 +1,4 @@
-import { Handshake, House, LayoutDashboard } from "lucide-react";
+import { Handshake, House, LayoutDashboard, User } from "lucide-react";
 import { ISidebarItems } from "./sidebarTypes";
 
 export const LANDLORD_MENU_ITEMS: ISidebarItems[] = [
@@ -16,5 +16,10 @@ export const LANDLORD_MENU_ITEMS: ISidebarItems[] = [
     lebel: "Rental Requests",
     href: "/dashboard/landlord/requests",
     icon: Handshake,
+  },
+  {
+    lebel: "Profile",
+    href: "/dashboard/landlord/me",
+    icon: User,
   },
 ];

@@ -70,6 +70,15 @@ export function AppNavBar({ user }: { user: IUser }) {
       }
     }
 
+    if (action === "Profile") {
+      if (user?.data?.role === "TENANT") {
+        router.push("/dashboard/tenant/me");
+      } else if (user?.data?.role === "LANDLORD") {
+        router.push("/dashboard/landlord/me");
+      } else if (user?.data?.role === "ADMIN") {
+        router.push("/dashboard/admin/me");
+      }
+    }
     if (action === "Log out") {
       await logout();
       toast.success("User logged out successfully!");
@@ -201,63 +210,5 @@ export function AppNavBar({ user }: { user: IUser }) {
         </div>
       )}
     </header>
-  );
-}
-
-function ProfileMenu({ user }: { user: IUser }) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="rounded-full"
-          aria-label="Open profile menu"
-        >
-          <Avatar className="size-8">
-            <AvatarFallback>
-              {user && getAvatarNameFromFullName(user?.data?.name)}
-            </AvatarFallback>
-          </Avatar>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end">
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>
-            <span className="flex flex-col gap-0.5">
-              <span>{user?.data?.name}</span>
-              <span className="text-xs font-normal text-muted-foreground">
-                {user?.data?.email}
-              </span>
-            </span>
-          </DropdownMenuLabel>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        {profileMenuSections.map((section, index) => (
-          <Fragment key={section.id}>
-            {index > 0 && <DropdownMenuSeparator />}
-            <DropdownMenuGroup>
-              {section.items.map((item) => {
-                const Icon = item.icon;
-
-                return (
-                  <DropdownMenuItem
-                    key={item.href}
-                    asChild
-                    variant={
-                      section.id === "session" ? "destructive" : "default"
-                    }
-                    // onClick={() => handleUserMenuAction("logout")}
-                  >
-                    <Icon />
-                    {item.label}
-                  </DropdownMenuItem>
-                );
-              })}
-            </DropdownMenuGroup>
-          </Fragment>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
   );
 }

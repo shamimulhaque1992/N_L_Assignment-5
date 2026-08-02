@@ -1,4 +1,9 @@
-import { LayoutDashboard, LucideCircleDollarSign, Send } from "lucide-react";
+import {
+  LayoutDashboard,
+  LucideCircleDollarSign,
+  Send,
+  User,
+} from "lucide-react";
 import { ISidebarItems } from "./sidebarTypes";
 
 export const TENANT_MENU_ITEMS: ISidebarItems[] = [
@@ -16,5 +21,10 @@ export const TENANT_MENU_ITEMS: ISidebarItems[] = [
     lebel: "Payment History",
     href: "/dashboard/tenant/payment-history",
     icon: LucideCircleDollarSign,
+  },
+  {
+    lebel: "Profile",
+    href: "/dashboard/tenant/me",
+    icon: User,
   },
 ];
