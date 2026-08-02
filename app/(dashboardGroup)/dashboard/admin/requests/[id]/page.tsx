@@ -241,7 +241,7 @@ export default async function LandlordRentalRequestDetailsPage({
                   </span>
                   <div className="flex items-baseline gap-1">
                     <span className="text-3xl font-black text-indigo-600 dark:text-indigo-400">
-                      ${Number(property?.price ?? 0).toLocaleString()}
+                      ৳{Number(property?.price ?? 0).toLocaleString()}
                     </span>
                     <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
                       / month

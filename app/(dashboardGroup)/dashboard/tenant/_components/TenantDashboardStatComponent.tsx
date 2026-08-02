@@ -1,52 +1,29 @@
 import React from "react";
 import {
-  Building2,
+  Ban,
   CheckCircle2,
   Clock,
+  CreditCard,
   DollarSign,
-  Home,
+  FileText,
   Star,
   TrendingUp,
   XCircle,
 } from "lucide-react";
-import { getLandLordStat } from "../_actions/getLandLordStat";
+import { getTenantStat } from "../_actions/getTenantStat";
 
-const LandLordDashboardStatComponent = async () => {
-  const result = await getLandLordStat();
+const TenantDashboardStatComponent = async () => {
+  const result = await getTenantStat();
   const stats = result?.data;
 
   const statCards = [
     {
-      label: "Total Properties",
-      value: stats?.totalProperties ?? 0,
-      icon: Building2,
+      label: "Total Requests",
+      value: stats?.totalRequests ?? 0,
+      icon: FileText,
       color: "text-indigo-600 dark:text-indigo-400",
       bg: "bg-indigo-50 dark:bg-indigo-950/60",
       border: "border-indigo-200 dark:border-indigo-800/60",
-    },
-    {
-      label: "Available",
-      value: stats?.availableProperties ?? 0,
-      icon: Home,
-      color: "text-emerald-600 dark:text-emerald-400",
-      bg: "bg-emerald-50 dark:bg-emerald-950/60",
-      border: "border-emerald-200 dark:border-emerald-800/60",
-    },
-    {
-      label: "Unavailable",
-      value: stats?.unavailableProperties ?? 0,
-      icon: XCircle,
-      color: "text-rose-600 dark:text-rose-400",
-      bg: "bg-rose-50 dark:bg-rose-950/60",
-      border: "border-rose-200 dark:border-rose-800/60",
-    },
-    {
-      label: "Total Requests",
-      value: stats?.totalRentalRequests ?? 0,
-      icon: TrendingUp,
-      color: "text-blue-600 dark:text-blue-400",
-      bg: "bg-blue-50 dark:bg-blue-950/60",
-      border: "border-blue-200 dark:border-blue-800/60",
     },
     {
       label: "Pending",
@@ -60,9 +37,17 @@ const LandLordDashboardStatComponent = async () => {
       label: "Approved",
       value: stats?.approvedRequests ?? 0,
       icon: CheckCircle2,
-      color: "text-green-600 dark:text-green-400",
-      bg: "bg-green-50 dark:bg-green-950/60",
-      border: "border-green-200 dark:border-green-800/60",
+      color: "text-emerald-600 dark:text-emerald-400",
+      bg: "bg-emerald-50 dark:bg-emerald-950/60",
+      border: "border-emerald-200 dark:border-emerald-800/60",
+    },
+    {
+      label: "Active",
+      value: stats?.activeRequests ?? 0,
+      icon: TrendingUp,
+      color: "text-blue-600 dark:text-blue-400",
+      bg: "bg-blue-50 dark:bg-blue-950/60",
+      border: "border-blue-200 dark:border-blue-800/60",
     },
     {
       label: "Completed",
@@ -76,39 +61,46 @@ const LandLordDashboardStatComponent = async () => {
       label: "Rejected",
       value: stats?.rejectedRequests ?? 0,
       icon: XCircle,
+      color: "text-rose-600 dark:text-rose-400",
+      bg: "bg-rose-50 dark:bg-rose-950/60",
+      border: "border-rose-200 dark:border-rose-800/60",
+    },
+    {
+      label: "Cancelled",
+      value: stats?.cancelledRequests ?? 0,
+      icon: Ban,
       color: "text-red-600 dark:text-red-400",
       bg: "bg-red-50 dark:bg-red-950/60",
       border: "border-red-200 dark:border-red-800/60",
     },
     {
-      label: "Total Reviews",
+      label: "Total Payments",
+      value: stats?.totalPayments ?? 0,
+      icon: CreditCard,
+      color: "text-violet-600 dark:text-violet-400",
+      bg: "bg-violet-50 dark:bg-violet-950/60",
+      border: "border-violet-200 dark:border-violet-800/60",
+    },
+    {
+      label: "Total Spent",
+      value: `৳${(stats?.totalAmountSpent ?? 0).toFixed(2)}`,
+      icon: DollarSign,
+      color: "text-green-600 dark:text-green-400",
+      bg: "bg-green-50 dark:bg-green-950/60",
+      border: "border-green-200 dark:border-green-800/60",
+    },
+    {
+      label: "Reviews Given",
       value: stats?.totalReviews ?? 0,
       icon: Star,
       color: "text-yellow-600 dark:text-yellow-400",
       bg: "bg-yellow-50 dark:bg-yellow-950/60",
       border: "border-yellow-200 dark:border-yellow-800/60",
     },
-    {
-      label: "Average Rating",
-      value: `${(stats?.averageRating ?? 0).toFixed(1)} ★`,
-      icon: Star,
-      color: "text-orange-600 dark:text-orange-400",
-      bg: "bg-orange-50 dark:bg-orange-950/60",
-      border: "border-orange-200 dark:border-orange-800/60",
-    },
-    {
-      label: "Total Revenue",
-      value: `৳${(stats?.totalRevnue ?? 0).toFixed(2)}`,
-      icon: DollarSign,
-      color: "text-violet-600 dark:text-violet-400",
-      bg: "bg-violet-50 dark:bg-violet-950/60",
-      border: "border-violet-200 dark:border-violet-800/60",
-    },
   ];
 
   return (
     <div className="space-y-6">
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {statCards.map((card) => {
           const Icon = card.icon;
@@ -138,4 +130,4 @@ const LandLordDashboardStatComponent = async () => {
   );
 };
 
-export default LandLordDashboardStatComponent;
+export default TenantDashboardStatComponent;

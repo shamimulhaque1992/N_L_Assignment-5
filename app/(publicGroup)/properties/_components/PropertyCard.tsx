@@ -88,7 +88,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
           {/* Price Tag Overlay */}
           <div className="absolute bottom-3 left-3 flex items-baseline gap-1 rounded-lg bg-black/40 backdrop-blur-md px-3 py-1.5 text-white">
             <span className="text-xl font-bold tracking-tight">
-              ${property.price}
+              ৳{property.price}
             </span>
             <span className="text-xs text-slate-200 font-medium">/ month</span>
           </div>

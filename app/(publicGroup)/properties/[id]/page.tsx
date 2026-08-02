@@ -272,7 +272,7 @@ export default async function PropertyDetailsPage({
                 </span>
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl md:text-4xl font-black text-indigo-600 dark:text-indigo-400">
-                    ${Number(property.price).toLocaleString()}
+                    ৳{Number(property.price).toLocaleString()}
                   </span>
                   <span className="text-sm font-medium text-slate-500 dark:text-slate-400">
                     / month
