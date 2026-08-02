@@ -42,7 +42,6 @@ const DeleteARentalRequestButtons = ({ item }: { item: RentalRequest }) => {
   ) => deleteARentalRequest(_state, item.id);
 
   const [state, action, pending] = useActionState(boundAction, null);
-  console.log("🚀 ~ DeleteARentalRequestButtons ~ state:", state);
 
   useEffect(() => {
     if (!state) return;

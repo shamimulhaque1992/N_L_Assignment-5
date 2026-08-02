@@ -33,7 +33,6 @@ export const updateRentalRequestStatus = async (
   );
 
   const result = await res.json();
-  console.log("🚀 ~ updateRentalRequestStatus ~ result:", result);
 
   if (result.success) {
     revalidateTag("rentals-requests", { expire: 0 });

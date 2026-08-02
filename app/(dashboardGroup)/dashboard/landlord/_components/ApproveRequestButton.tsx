@@ -35,7 +35,6 @@ export default function ApproveRequestButton({
     _formData: FormData,
   ) => updateRentalRequestStatus(prevState, rentalId, "APPROVED");
   const [state, action, pending] = useActionState(boundAction, null);
-  console.log("🚀 ~ UpdateRentalRequestButton ~ state:", state);
 
   useEffect(() => {
     if (!state) return;
