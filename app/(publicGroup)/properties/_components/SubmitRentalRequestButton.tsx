@@ -42,12 +42,9 @@ const SubmitRentalRequestButton = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const formData = new FormData(e.currentTarget);
-    const message = (formData.get("message") as string || "").trim();
+    const message = ((formData.get("message") as string) || "").trim();
 
-    if (!message) {
-      e.preventDefault();
-      setError("Message is required");
-    } else if (message.length < 5) {
+    if (message && message.length < 5) {
       e.preventDefault();
       setError("Message must be at least 5 characters");
     } else {
@@ -71,15 +68,13 @@ const SubmitRentalRequestButton = ({
         <DialogHeader>
           <DialogTitle>Submit your rental request</DialogTitle>
           <DialogDescription>
-            Your rental request will be reviewed by the property owner. You
-            will be notified after the review.
+            Your rental request will be reviewed by the property owner. You will
+            be notified after the review.
           </DialogDescription>
         </DialogHeader>
         <form action={action} onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
-            <Label htmlFor="message">
-              Message <span className="text-rose-500">*</span>
-            </Label>
+            <Label htmlFor="message">Message</Label>
             <Textarea
               id="message"
               name="message"

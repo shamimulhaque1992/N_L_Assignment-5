@@ -38,9 +38,7 @@ import { logout } from "@/service/logout";
 
 const menuItems = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
   { label: "Properties", href: "/properties" },
-  { label: "Contact", href: "/contact" },
 ] as const;
 
 const profileMenuSections = [
@@ -49,8 +47,6 @@ const profileMenuSections = [
     items: [
       { label: "Profile", href: "#profile", icon: UserIcon },
       { label: "Dashboard", href: "#dashboard", icon: LayoutDashboard },
-      { label: "Billing", href: "#billing", icon: CreditCardIcon },
-      { label: "Settings", href: "#settings", icon: SettingsIcon },
     ],
   },
   {
@@ -181,7 +177,11 @@ export function AppNavBar({ user }: { user: IUser }) {
             aria-label="Toggle mobile menu"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
           >
-            {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            {mobileMenuOpen ? (
+              <X className="size-5" />
+            ) : (
+              <Menu className="size-5" />
+            )}
           </Button>
         </div>
       </div>
@@ -203,7 +203,6 @@ export function AppNavBar({ user }: { user: IUser }) {
     </header>
   );
 }
-
 
 function ProfileMenu({ user }: { user: IUser }) {
   return (

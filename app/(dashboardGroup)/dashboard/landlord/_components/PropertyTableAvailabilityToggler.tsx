@@ -2,10 +2,10 @@
 
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Property } from "../properties/page";
 import { startTransition, useActionState, useEffect } from "react";
 import { updateAPropertyStatus } from "../_actions/updateAPropertyStatus";
 import { toast } from "sonner";
+import { Property } from "./LandLordAllMyPropertiesListing";
 
 type Props = {
   item: Property;

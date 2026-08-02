@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Ban, Eye, Pencil } from "lucide-react";
+import { Ban, Eye, HandCoins, Pencil } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { startTransition, useActionState, useEffect } from "react";
 import { cancelARentalRequest } from "../../_actions/cancleARentalRequest";
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import SubmitAReviewForm from "./SubmitAReviewForm";
 import { toast } from "sonner";
+import { createPaymentIntent } from "../requests/_actions/createPaymentIntent";
 
 export type RentalRequest = {
   id: string;
@@ -34,6 +35,10 @@ const TenantTableActionButtons = ({ item }: { item: RentalRequest }) => {
     cancelARentalRequest.bind(null, null, item.id),
     null,
   );
+  const [paymentState, paymentAction, paymentPending] = useActionState(
+    createPaymentIntent.bind(null, item.id),
+    null,
+  );
 
   const handleButtonClick = (actionType: string) => {
     if (actionType === "view") {
@@ -42,17 +47,25 @@ const TenantTableActionButtons = ({ item }: { item: RentalRequest }) => {
     if (actionType === "cancel") {
       startTransition(action);
     }
+    if (actionType === "pay") {
+      startTransition(paymentAction);
+    }
   };
 
   useEffect(() => {
-    if (!state) return;
-    if (state.success) {
-      toast.success(state.message || "Rental request cancelled successfully");
+    if (!state && !paymentState) return;
+    if (state?.success) {
+      toast.success(state?.message || "Rental request cancelled successfully");
+      router.refresh();
+    } else if (paymentState?.success) {
+      toast.success(paymentState?.message || "Payment successful");
       router.refresh();
     } else {
-      toast.error(state.message || "Failed to cancel rental request");
+      toast.error(
+        state?.message || paymentState?.message || "Failed to process",
+      );
     }
-  }, [state, router]);
+  }, [state, paymentState, router]);
 
   return (
     <div className="flex items-center justify-start gap-2">
@@ -78,6 +91,18 @@ const TenantTableActionButtons = ({ item }: { item: RentalRequest }) => {
           {pending ? "Cancelling..." : "Cancel"}
         </Button>
       )}
+      {item?.status === "APPROVED" && (
+        <Button
+          onClick={() => handleButtonClick("pay")}
+          variant="outline"
+          size="sm"
+          disabled={paymentPending}
+          className="flex items-center gap-1.5"
+        >
+          <HandCoins className="h-4 w-4" />
+          {paymentPending ? "Redirecting..." : "Pay"}
+        </Button>
+      )}
 
       <Dialog>
         <DialogTrigger asChild disabled={item.status !== "COMPLETED"}>
@@ -94,7 +119,8 @@ const TenantTableActionButtons = ({ item }: { item: RentalRequest }) => {
           <DialogHeader>
             <DialogTitle>Submit a review</DialogTitle>
             <DialogDescription>
-              Please share your feedback about your experience with this property.
+              Please share your feedback about your experience with this
+              property.
             </DialogDescription>
           </DialogHeader>
           <SubmitAReviewForm request={item} />
