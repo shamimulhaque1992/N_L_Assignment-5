@@ -28,7 +28,9 @@ const LoginForm = () => {
     initialState,
   );
 
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {},
+  );
 
   useEffect(() => {
     if (state.success) {
@@ -42,8 +44,8 @@ const LoginForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const formData = new FormData(e.currentTarget);
-    const email = (formData.get("email") as string || "").trim();
-    const password = (formData.get("password") as string || "");
+    const email = ((formData.get("email") as string) || "").trim();
+    const password = (formData.get("password") as string) || "";
 
     const newErrors: { email?: string; password?: string } = {};
 
@@ -112,7 +114,7 @@ const LoginForm = () => {
           {pending ? "Submitting..." : "Login"}
         </Button>
         <div className="text-sm text-center text-muted-foreground">
-          Don&apos;t have an account?{" "}
+          Don&apos;t have an account?
           <Link
             href="/auth/register"
             className="text-primary underline font-medium hover:text-primary/80 transition-colors"

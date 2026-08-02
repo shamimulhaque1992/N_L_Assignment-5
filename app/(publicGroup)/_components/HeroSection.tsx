@@ -23,7 +23,7 @@ const HeroSection = () => {
         </div>
 
         <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4">
-          Find Your Perfect{" "}
+          Find Your Perfect
           <span className="text-indigo-300">Rental Property</span>
         </h1>
 

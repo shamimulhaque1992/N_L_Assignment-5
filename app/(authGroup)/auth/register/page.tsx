@@ -18,7 +18,7 @@ const RegisterPage = async () => {
           Join RentNest as a Landlord or Tenant
         </CardDescription>
       </CardHeader>
-      <RegisterForm />{" "}
+      <RegisterForm />
     </Card>
   );
 };

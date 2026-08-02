@@ -19,36 +19,31 @@ const AdminUserTableActionButtons = ({ item }: { item: User }) => {
   }, [state, router]);
   return (
     <div className="flex items-center justify-start gap-2">
-      {" "}
       <Button
         onClick={() => router.push(`/dashboard/admin/users/${item.id}`)}
         variant="outline"
         size="sm"
         className="flex items-center gap-1.5"
       >
-        {" "}
-        <Eye className="h-4 w-4" /> View{" "}
-      </Button>{" "}
+        <Eye className="h-4 w-4" /> View
+      </Button>
       <Button
         onClick={() => startTransition(action)}
         variant={item.status === "BAN" ? "default" : "destructive"}
         size="sm"
         className="flex items-center gap-1.5"
       >
-        {" "}
         {item.status === "BAN" ? (
           <>
-            {" "}
-            <ShieldCheck className="h-4 w-4" />{" "}
-            {pending ? "Unbanning..." : "Unban"}{" "}
+            <ShieldCheck className="h-4 w-4" />
+            {pending ? "Unbanning..." : "Unban"}
           </>
         ) : (
           <>
-            {" "}
-            <Ban className="h-4 w-4" /> {pending ? "Banning..." : "Ban"}{" "}
+            <Ban className="h-4 w-4" /> {pending ? "Banning..." : "Ban"}
           </>
-        )}{" "}
-      </Button>{" "}
+        )}
+      </Button>
     </div>
   );
 };

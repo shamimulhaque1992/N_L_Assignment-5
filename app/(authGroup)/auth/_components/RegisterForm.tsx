@@ -39,10 +39,10 @@ const RegisterForm = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const formData = new FormData(e.currentTarget);
-    const name = (formData.get("name") as string || "").trim();
-    const email = (formData.get("email") as string || "").trim();
-    const password = (formData.get("password") as string || "");
-    const phone = (formData.get("phone") as string || "").trim();
+    const name = ((formData.get("name") as string) || "").trim();
+    const email = ((formData.get("email") as string) || "").trim();
+    const password = (formData.get("password") as string) || "";
+    const phone = ((formData.get("phone") as string) || "").trim();
 
     const newErrors: typeof errors = {};
 
@@ -192,7 +192,7 @@ const RegisterForm = () => {
           {pending ? "Submitting..." : "Register Account"}
         </Button>
         <div className="text-sm text-center text-muted-foreground">
-          Already have an account?{" "}
+          Already have an account?
           <Link
             href="/auth/login"
             className="text-primary underline font-medium hover:text-primary/80 transition-colors"

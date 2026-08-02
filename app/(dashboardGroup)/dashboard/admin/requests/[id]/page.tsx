@@ -109,7 +109,7 @@ export default async function LandlordRentalRequestDetailsPage({
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+      <div className="max-w-7xl mx-auto space-y-8">
         {/* Back Link */}
         <Link
           href="/dashboard/landlord/requests"
@@ -253,7 +253,7 @@ export default async function LandlordRentalRequestDetailsPage({
                   <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
                     <Calendar className="h-4 w-4 shrink-0" />
                     <span>
-                      Submitted:{" "}
+                      Submitted:
                       <span className="font-medium text-slate-700 dark:text-slate-200">
                         {formatDate(request.createdAt)}
                       </span>
@@ -262,7 +262,7 @@ export default async function LandlordRentalRequestDetailsPage({
                   <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400">
                     <Calendar className="h-4 w-4 shrink-0" />
                     <span>
-                      Updated:{" "}
+                      Updated:
                       <span className="font-medium text-slate-700 dark:text-slate-200">
                         {formatDate(request.updatedAt)}
                       </span>

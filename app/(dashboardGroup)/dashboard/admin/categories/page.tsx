@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ProductCategoriesListing from "../../_components/ProductCategoryListing";
+import { PropertyTableSkeleton } from "../../_components/PropertyTableSkeleton";
 
 const ProductCategoriesPage = ({
   searchParams,
@@ -19,7 +20,9 @@ const ProductCategoriesPage = ({
         </div>
       </div>
 
-      <ProductCategoriesListing searchParams={searchParams} />
+      <Suspense fallback={<PropertyTableSkeleton />}>
+        <ProductCategoriesListing searchParams={searchParams} />
+      </Suspense>
     </div>
   );
 };

@@ -69,10 +69,10 @@ export default function CreatePropertyForm({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const formData = new FormData(e.currentTarget);
-    const title = (formData.get("title") as string || "").trim();
-    const description = (formData.get("description") as string || "").trim();
-    const price = (formData.get("price") as string || "").trim();
-    const address = (formData.get("address") as string || "").trim();
+    const title = ((formData.get("title") as string) || "").trim();
+    const description = ((formData.get("description") as string) || "").trim();
+    const price = ((formData.get("price") as string) || "").trim();
+    const address = ((formData.get("address") as string) || "").trim();
 
     const newErrors: typeof errors = {};
 
@@ -188,7 +188,7 @@ export default function CreatePropertyForm({
       {/* Amenities */}
       <div className="space-y-2">
         <Label htmlFor="amenities">
-          Amenities{" "}
+          Amenities
           <span className="text-xs text-muted-foreground font-normal">
             (comma-separated)
           </span>
