@@ -1,4 +1,4 @@
-import { Handshake, House, LayoutDashboard, Users } from "lucide-react";
+import { Handshake, House, LayoutDashboard } from "lucide-react";
 import { ISidebarItems } from "./sidebarTypes";
 
 export const LANDLORD_MENU_ITEMS: ISidebarItems[] = [

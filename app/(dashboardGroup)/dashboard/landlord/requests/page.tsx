@@ -6,7 +6,6 @@ import AppSearchBar from "@/components/shared/AppSearchBar";
 import AppFilter, { FilterField } from "@/components/shared/AppFilter";
 import AppPagination from "@/components/shared/AppPagination";
 
-// ─── Type for a single rental request row ─────────────────────────────────────
 type RentalRequest = {
   id: string;
   propertyId: string;
