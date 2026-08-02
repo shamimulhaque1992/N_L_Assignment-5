@@ -127,3 +127,10 @@
     @apply font-sans;
   }
 }
+
+@layer utilities {
+  [data-slot="sidebar-container"] {
+    top: 4rem !important;
+    height: calc(100svh - 4rem) !important;
+  }
+}

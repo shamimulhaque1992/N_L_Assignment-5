@@ -5,9 +5,11 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { IUser } from "@/lib/types";
 import Link from "next/link";
@@ -27,11 +29,20 @@ export default function DashboardSidebar({ user }: { user: IUser }) {
     navItems = sidebarMenuItems.TENANT;
   }
 
+  const roleLabel =
+    user?.data?.role === "ADMIN"
+      ? "Admin Panel"
+      : user?.data?.role === "LANDLORD"
+        ? "Landlord Panel"
+        : "Tenant Panel";
+
   return (
-    <Sidebar
-      collapsible="none"
-      className=" h-[calc(100svh-0rem)] border-r border-sidebar-border"
-    >
+    <Sidebar collapsible="offcanvas">
+      <SidebarHeader className="px-4 py-3 border-b border-sidebar-border">
+        <p className="text-xs font-semibold uppercase tracking-widest text-sidebar-foreground/50">
+          {roleLabel}
+        </p>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
@@ -53,3 +64,12 @@ export default function DashboardSidebar({ user }: { user: IUser }) {
     </Sidebar>
   );
 }
+
+export function MobileSidebarTrigger() {
+  return (
+    <div className="flex items-center md:hidden px-4 py-2 border-b">
+      <SidebarTrigger />
+    </div>
+  );
+}
+

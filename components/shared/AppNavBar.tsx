@@ -1,13 +1,15 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import Link from "next/link";
 import {
   CreditCardIcon,
   LayoutDashboard,
   LogOutIcon,
+  Menu,
   SettingsIcon,
   UserIcon,
+  X,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -59,6 +61,8 @@ const profileMenuSections = [
 
 export function AppNavBar({ user }: { user: IUser }) {
   const router = useRouter();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const handleUserMenuAction = async (action: string) => {
     if (action === "Dashboard") {
       if (user?.data?.role === "TENANT") {
@@ -76,6 +80,7 @@ export function AppNavBar({ user }: { user: IUser }) {
       router.push("/auth/login");
     }
   };
+
   return (
     <header className="sticky top-0 border-b bg-background/95 backdrop-blur z-50">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:px-6">
@@ -103,7 +108,6 @@ export function AppNavBar({ user }: { user: IUser }) {
         </NavigationMenu>
 
         <div className="flex items-center gap-2">
-          {/* <ProfileMenu user={user} /> */}
           {user.success ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -169,11 +173,37 @@ export function AppNavBar({ user }: { user: IUser }) {
               <Button>Log in</Button>
             </Link>
           )}
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            aria-label="Toggle mobile menu"
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+          >
+            {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+          </Button>
         </div>
       </div>
+
+      {mobileMenuOpen && (
+        <div className="md:hidden border-t bg-background px-4 py-3 flex flex-col gap-1">
+          {menuItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
     </header>
   );
 }
+
 
 function ProfileMenu({ user }: { user: IUser }) {
   return (
