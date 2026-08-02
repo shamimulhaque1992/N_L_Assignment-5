@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { startTransition, useActionState, useEffect } from "react";
+import { useActionState, useEffect } from "react";
 import {
   Dialog,
   DialogClose,
@@ -31,10 +31,18 @@ export type RentalRequest = {
 
 const DeleteARentalRequestButtons = ({ item }: { item: RentalRequest }) => {
   const router = useRouter();
-  const [state, action, pending] = useActionState(
-    deleteARentalRequest.bind(null, null, item.id),
-    null,
-  );
+  const boundAction = (
+    _state: {
+      success: boolean;
+      message: string;
+      statusCode: number;
+      data?: unknown;
+    } | null,
+    _formData: FormData,
+  ) => deleteARentalRequest(_state, item.id);
+
+  const [state, action, pending] = useActionState(boundAction, null);
+  console.log("🚀 ~ DeleteARentalRequestButtons ~ state:", state);
 
   useEffect(() => {
     if (!state) return;

@@ -3,8 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
-import UpdateRentalRequestButton from "./UpdateRentalRequestButton";
 import DeleteARentalRequestButtons from "./DeleteARentalRequestButtons";
+import ApproveRequestButton from "./ApproveRequestButton";
+import RejectRequestButton from "./RejectRequestButton";
+import CompleteRequestButton from "./CompleteRequestButton";
 
 type RentalRequest = {
   id: string;
@@ -32,19 +34,10 @@ const LandlordTableActionButtons = ({ item }: { item: RentalRequest }) => {
         <Eye className="h-4 w-4" />
         View
       </Button>
-
-      {item.status === "PENDING" && (
-        <>
-          <UpdateRentalRequestButton rentalId={item.id} status="APPROVED" />
-          <UpdateRentalRequestButton rentalId={item.id} status="REJECTED" />
-        </>
-      )}
-      {item.status === "ACTIVE" && (
-        <>
-          <UpdateRentalRequestButton rentalId={item.id} status="COMPLETED" />
-        </>
-      )}
       <DeleteARentalRequestButtons item={item} />
+      {item.status === "PENDING" && <ApproveRequestButton rentalId={item.id} />}
+      {item.status === "PENDING" && <RejectRequestButton rentalId={item.id} />}
+      {item.status === "ACTIVE" && <CompleteRequestButton rentalId={item.id} />}
     </div>
   );
 };

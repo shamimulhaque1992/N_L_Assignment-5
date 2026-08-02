@@ -15,7 +15,7 @@ export const updateAPropertyStatus = async (
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        Cookie: `accessToken=${accessToken}`,
       },
       body: JSON.stringify({ status: newStatus }),
     },

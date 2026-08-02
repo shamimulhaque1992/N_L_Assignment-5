@@ -11,12 +11,11 @@ type ActionState = {
 } | null;
 
 export const updateRentalRequestStatus = async (
-  _initialState?: ActionState,
-  formData?: FormData,
+  _prevState: ActionState,
+  rentalId: string,
+  status: string,
 ): Promise<ActionState> => {
   const accessToken = await validateAccessToken();
-  const rentalId = formData?.get("rentalId") as string;
-  const status = formData?.get("status") as string;
 
   const res = await fetch(
     `${process.env.BACKEND_API_URL}/rentals/${rentalId}/status`,

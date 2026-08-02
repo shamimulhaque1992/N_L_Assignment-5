@@ -17,7 +17,8 @@ import {
   XCircle,
   Building2,
 } from "lucide-react";
-import UpdateRentalRequestButton from "../../../landlord/_components/UpdateRentalRequestButton";
+import ApproveRequestButton from "../../../landlord/_components/ApproveRequestButton";
+import RejectRequestButton from "../../../landlord/_components/RejectRequestButton";
 
 interface LandlordRentalRequestDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -273,14 +274,8 @@ export default async function LandlordRentalRequestDetailsPage({
                 {/* Approve / Reject Actions — only shown when PENDING */}
                 {status === "PENDING" && (
                   <div className="flex flex-col gap-3 pt-1">
-                    <UpdateRentalRequestButton
-                      rentalId={request.id}
-                      status="APPROVED"
-                    />
-                    <UpdateRentalRequestButton
-                      rentalId={request.id}
-                      status="REJECTED"
-                    />
+                    <ApproveRequestButton rentalId={request.id} />
+                    <RejectRequestButton rentalId={request.id} />
                   </div>
                 )}
 
