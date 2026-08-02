@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { updateAProperty } from "../_actions/updateAProperty";
 import { Category, Property } from "./PropertyTableActionButtons";
+import { Plus, Trash2 } from "lucide-react";
 
 const UpdatePropertyForm = ({
   item,
@@ -27,6 +28,12 @@ const UpdatePropertyForm = ({
 }) => {
   const router = useRouter();
   const [categoryId, setCategoryId] = useState(item.category?.id ?? "");
+  const [images, setImages] = useState<string[]>(
+    item.images && (item.images as string[]).length > 0
+      ? (item.images as string[])
+      : [""],
+  );
+
   const [state, action, pending] = useActionState(
     updateAProperty.bind(null, item.id),
     null,
@@ -48,6 +55,22 @@ const UpdatePropertyForm = ({
       toast.error(state.message || "Failed to update property");
     }
   }, [state, router]);
+
+  const handleAddImage = () => {
+    setImages((prev) => [...prev, ""]);
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleImageChange = (index: number, value: string) => {
+    setImages((prev) => {
+      const next = [...prev];
+      next[index] = value;
+      return next;
+    });
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const formData = new FormData(e.currentTarget);
@@ -175,20 +198,44 @@ const UpdatePropertyForm = ({
         />
       </div>
 
-      {/* Images */}
-      <div className="space-y-1">
-        <Label htmlFor="update-images">
-          Image URLs{" "}
-          <span className="text-xs text-muted-foreground font-normal">
-            (comma-separated)
-          </span>
-        </Label>
-        <Input
-          id="update-images"
-          name="images"
-          defaultValue={(item.images as string[])?.join(", ")}
-          placeholder="e.g. https://example.com/img.jpg"
-        />
+      {/* Dynamic Image URLs */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <Label>Image URLs</Label>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={handleAddImage}
+            className="flex items-center gap-1 text-xs"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            Add Image URL
+          </Button>
+        </div>
+        <div className="space-y-2">
+          {images.map((imgUrl, index) => (
+            <div key={index} className="flex items-center gap-2">
+              <Input
+                name="images"
+                value={imgUrl}
+                onChange={(e) => handleImageChange(index, e.target.value)}
+                placeholder={`Image URL #${index + 1}`}
+              />
+              {images.length > 1 && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleRemoveImage(index)}
+                  className="text-rose-500 hover:text-rose-700 hover:bg-rose-50 shrink-0"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       <DialogFooter>

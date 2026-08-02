@@ -21,15 +21,14 @@ export const updateAProperty = async (
   const price = formData.get("price") as string;
   const address = formData.get("address") as string;
   const categoryId = formData.get("categoryId") as string;
-  const imagesRaw = formData.get("images") as string;
+  const imagesGetAll = formData.getAll("images") as string[];
   const amenitiesRaw = formData.get("amenities") as string;
 
-  const images = imagesRaw
-    ? imagesRaw
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean)
-    : [];
+  const images = imagesGetAll
+    .flatMap((img) => img.split(","))
+    .map((s) => s.trim())
+    .filter(Boolean);
+
   const amenities = amenitiesRaw
     ? amenitiesRaw
         .split(",")
