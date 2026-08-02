@@ -4,6 +4,9 @@ import { getAllRentalRequests } from "../../_actions/getAllRentalRequests";
 import AppSearchBar from "@/components/shared/AppSearchBar";
 import AppFilter, { FilterField } from "@/components/shared/AppFilter";
 import AppPagination from "@/components/shared/AppPagination";
+import Link from "next/link";
+import { Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 // ─── Type for a single rental request row ─────────────────────────────────────
 type RentalRequest = {
@@ -72,6 +75,25 @@ const columns: TableColumn<RentalRequest>[] = [
     slug: "createdAt",
     render: (item) => (
       <span>{new Date(item.createdAt).toLocaleDateString()}</span>
+    ),
+  },
+  {
+    label: "View",
+    slug: "view",
+    render: (item) => (
+      <Link
+        href={`/dashboard/admin/requests/${item.id}`}
+        className="cursor-pointer"
+      >
+        <Button
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-1.5"
+        >
+          <Eye className="h-4 w-4" />
+          View
+        </Button>
+      </Link>
     ),
   },
 ];

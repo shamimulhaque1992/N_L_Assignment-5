@@ -13,6 +13,7 @@ type RentalRequest = {
   status: string;
   createdAt: string;
   property: {
+    id: string;
     title: string;
   };
   tenant: {

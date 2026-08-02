@@ -62,9 +62,11 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
       <div>
         {/* Image & Badges Container */}
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
-          <img
+          <Image
             src={coverImage}
             alt={property.title}
+            width={100}
+            height={100}
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
 

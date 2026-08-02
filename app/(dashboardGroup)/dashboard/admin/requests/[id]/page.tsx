@@ -17,7 +17,7 @@ import {
   XCircle,
   Building2,
 } from "lucide-react";
-import UpdateRentalRequestButton from "../../_components/UpdateRentalRequestButton";
+import UpdateRentalRequestButton from "../../../landlord/_components/UpdateRentalRequestButton";
 
 interface LandlordRentalRequestDetailsPageProps {
   params: Promise<{ id: string }>;
