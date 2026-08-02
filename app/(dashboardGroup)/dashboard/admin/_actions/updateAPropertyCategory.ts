@@ -7,24 +7,28 @@ type ActionState = {
   success: boolean;
   message: string;
   statusCode: number;
-  data?: unknown;
+  data: { [key: string]: string | string[] | undefined };
 } | null;
 
-export const deleteAPropertyCategory = async (
-  _initialState: ActionState,
+export const updateAPropertyCategory = async (
   categoryId: string,
+  _initialState: ActionState,
+  formData: FormData,
 ): Promise<ActionState> => {
   const accessToken = await validateAccessToken();
+
+  const name = formData.get("name") as string;
 
   const res = await fetch(
     `${process.env.BACKEND_API_URL}/categories/${categoryId}`,
     {
-      method: "DELETE",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         Cookie: `accessToken=${accessToken}`,
       },
-      cache: "no-cache",
+      body: JSON.stringify({ name }),
+      cache: "no-store",
     },
   );
 
@@ -33,5 +37,6 @@ export const deleteAPropertyCategory = async (
   if (result.success) {
     revalidateTag("categories", { expire: 0 });
   }
+
   return result;
 };

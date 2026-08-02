@@ -11,10 +11,13 @@ import {
 } from "@/components/ui/dialog";
 import { Pencil, Trash2 } from "lucide-react";
 import { Category } from "../landlord/_components/PropertyTableActionButtons";
+import UpdateCategoryForm from "./UpdateCategoryForm";
+import DeleteCategoryButton from "./DeleteCategoryButton";
 
 const CategoryTableActionButtons = ({ item }: { item: Category }) => {
   return (
     <div className="flex justify-start items-center gap-4">
+      {/* Update Category Dialog */}
       <Dialog>
         <DialogTrigger asChild>
           <Button
@@ -28,14 +31,16 @@ const CategoryTableActionButtons = ({ item }: { item: Category }) => {
         </DialogTrigger>
         <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Edit Property</DialogTitle>
+            <DialogTitle>Edit Category</DialogTitle>
             <DialogDescription>
-              Update the details of your property listing.
+              Update the details of your property category.
             </DialogDescription>
           </DialogHeader>
+          <UpdateCategoryForm item={item} />
         </DialogContent>
       </Dialog>
 
+      {/* Delete Category Dialog */}
       <Dialog>
         <DialogTrigger asChild>
           <Button
@@ -49,9 +54,9 @@ const CategoryTableActionButtons = ({ item }: { item: Category }) => {
         </DialogTrigger>
         <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle>Delete Property</DialogTitle>
+            <DialogTitle>Delete Category</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this property? This action cannot
+              Are you sure you want to delete this category? This action cannot
               be undone.
             </DialogDescription>
           </DialogHeader>
@@ -61,6 +66,7 @@ const CategoryTableActionButtons = ({ item }: { item: Category }) => {
                 Cancel
               </Button>
             </DialogClose>
+            <DeleteCategoryButton categoryId={item.id} />
           </DialogFooter>
         </DialogContent>
       </Dialog>
