@@ -8,7 +8,7 @@ const AllPropertyListingPage = ({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   return (
-    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 py-6">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 py-6 w-full overflow-hidden">
       <Suspense fallback={<PropertyScalliton count={6} />}>
         <AllPropertiesList searchParams={searchParams} />
       </Suspense>
