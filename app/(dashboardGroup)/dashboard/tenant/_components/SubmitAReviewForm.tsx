@@ -23,7 +23,7 @@ export default function SubmitAReviewForm({
   request: RentalRequest;
 }) {
   const router = useRouter();
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useState("5");
   const [errors, setErrors] = useState<{ rating?: string; comment?: string }>(
     {},
   );
@@ -44,7 +44,7 @@ export default function SubmitAReviewForm({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const formData = new FormData(e.currentTarget);
-    const comment = (formData.get("comment") as string || "").trim();
+    const comment = ((formData.get("comment") as string) || "").trim();
     const newErrors: typeof errors = {};
 
     if (!rating) newErrors.rating = "Please select a rating";
@@ -65,24 +65,36 @@ export default function SubmitAReviewForm({
   return (
     <form action={action} onSubmit={handleSubmit} className="space-y-5">
       <div className="space-y-2">
+        {" "}
         <Label htmlFor="rating">
-          Rating <span className="text-rose-500">*</span>
-        </Label>
-        <Select value={rating} onValueChange={setRating}>
+          {" "}
+          Rating <span className="text-rose-500">*</span>{" "}
+        </Label>{" "}
+        <input type="hidden" name="rating" value={rating} />{" "}
+        <Select
+          value={rating}
+          onValueChange={(value) => {
+            setRating(value);
+            setErrors((prev) => ({ ...prev, rating: undefined }));
+          }}
+        >
+          {" "}
           <SelectTrigger id="rating" className="w-full">
-            <SelectValue placeholder="Select a rating" />
-          </SelectTrigger>
+            {" "}
+            <SelectValue placeholder="Select a rating" />{" "}
+          </SelectTrigger>{" "}
           <SelectContent>
-            <SelectItem value="5">⭐⭐⭐⭐⭐ (5)</SelectItem>
-            <SelectItem value="4">⭐⭐⭐⭐ (4)</SelectItem>
-            <SelectItem value="3">⭐⭐⭐ (3)</SelectItem>
-            <SelectItem value="2">⭐⭐ (2)</SelectItem>
-            <SelectItem value="1">⭐ (1)</SelectItem>
-          </SelectContent>
-        </Select>
+            {" "}
+            <SelectItem value="5">⭐⭐⭐⭐⭐ (5)</SelectItem>{" "}
+            <SelectItem value="4">⭐⭐⭐⭐ (4)</SelectItem>{" "}
+            <SelectItem value="3">⭐⭐⭐ (3)</SelectItem>{" "}
+            <SelectItem value="2">⭐⭐ (2)</SelectItem>{" "}
+            <SelectItem value="1">⭐ (1)</SelectItem>{" "}
+          </SelectContent>{" "}
+        </Select>{" "}
         {errors.rating && (
           <p className="text-xs text-rose-500">{errors.rating}</p>
-        )}
+        )}{" "}
       </div>
 
       <div className="space-y-2">
