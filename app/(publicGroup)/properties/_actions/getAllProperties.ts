@@ -64,6 +64,5 @@ export const getAllProperties = async ({
   );
 
   const result = await res.json();
-  console.log("🚀 ~ getAllProperties ~ result:", result)
   return result;
 };
