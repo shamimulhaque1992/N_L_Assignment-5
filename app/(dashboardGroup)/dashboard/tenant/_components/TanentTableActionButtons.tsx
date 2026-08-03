@@ -42,13 +42,14 @@ const TenantTableActionButtons = ({ item }: { item: RentalRequest }) => {
 
   const handleButtonClick = (actionType: string) => {
     if (actionType === "view") {
-      router.push(`/dashboard/tenant/requests/${item.id}/pay`);
+      router.push(`/dashboard/tenant/requests/${item.id}`);
     }
     if (actionType === "cancel") {
       startTransition(action);
     }
     if (actionType === "pay") {
-      startTransition(paymentAction);
+      // startTransition(paymentAction);
+      router.push(`/dashboard/tenant/requests/${item.id}/pay`);
     }
   };
 

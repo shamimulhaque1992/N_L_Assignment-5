@@ -19,7 +19,7 @@ const NotFound = () => {
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-muted-foreground">
           The page you&apos;re looking for may have been moved, deleted, or
-          never existed. You can return home or browse our latest articles to
+          never existed. You can return home or browse our latest properties to
           continue exploring.
         </p>
 
@@ -34,7 +34,7 @@ const NotFound = () => {
           <Button asChild variant="outline" size="lg">
             <Link href="/properties">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Browse articles
+              Browse Properties
             </Link>
           </Button>
         </div>
