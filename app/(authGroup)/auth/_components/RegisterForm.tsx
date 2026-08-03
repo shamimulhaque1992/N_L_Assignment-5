@@ -46,18 +46,34 @@ const RegisterForm = () => {
 
     const newErrors: typeof errors = {};
 
+    // Email regex: validates standard email format
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    // Supports formats: 01XXXXXXXXX, +8801XXXXXXXXX, 8801XXXXXXXXX
+    const phoneRegex = /^(?:\+?88)?01[3-9]\d{8}$/;
+
     if (!name) newErrors.name = "Full name is required";
+
     if (!email) {
       newErrors.email = "Email is required";
-    } else if (!email.includes("@")) {
-      newErrors.email = "Please enter a valid email address";
+    } else if (!emailRegex.test(email)) {
+      newErrors.email =
+        "Please enter a valid email address (e.g., name@example.com)";
     }
+
     if (!password) {
       newErrors.password = "Password is required";
     } else if (password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     }
-    if (!phone) newErrors.phone = "Phone number is required";
+
+    if (!phone) {
+      newErrors.phone = "Phone number is required";
+    } else if (!phoneRegex.test(phone)) {
+      newErrors.phone =
+        "Please enter a valid Bangladesh phone number (e.g., 01XXXXXXXXX)";
+    }
+
     if (!role) newErrors.role = "Please select a role";
 
     if (Object.keys(newErrors).length > 0) {

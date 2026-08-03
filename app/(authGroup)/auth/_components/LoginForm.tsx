@@ -47,12 +47,16 @@ const LoginForm = () => {
     const email = ((formData.get("email") as string) || "").trim();
     const password = (formData.get("password") as string) || "";
 
+    // Email regex: validates standard email format
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
     const newErrors: { email?: string; password?: string } = {};
 
     if (!email) {
       newErrors.email = "Email address is required";
-    } else if (!email.includes("@")) {
-      newErrors.email = "Please enter a valid email address";
+    } else if (!emailRegex.test(email)) {
+      newErrors.email =
+        "Please enter a valid email address (e.g., name@example.com)";
     }
 
     if (!password) {

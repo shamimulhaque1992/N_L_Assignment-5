@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { PropertyTableSkeleton } from "../../_components/PropertyTableSkeleton";
 import LandLordAllMyPropertiesListing from "../_components/LandLordAllMyPropertiesListing";
+import { Button } from "@/components/ui/button";
 
 const LandLordAllMyPropertiesDashboardPage = async ({
   searchParams,
@@ -21,11 +22,10 @@ const LandLordAllMyPropertiesDashboardPage = async ({
         </div>
 
         <div className="flex justify-end">
-          <Link
-            href={"/dashboard/landlord/properties/new"}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-          >
-            Add New Property
+          <Link href={"/dashboard/landlord/properties/new"}>
+            <Button variant={"outline"} className="cursor-pointer">
+              Add New Category
+            </Button>
           </Link>
         </div>
       </div>

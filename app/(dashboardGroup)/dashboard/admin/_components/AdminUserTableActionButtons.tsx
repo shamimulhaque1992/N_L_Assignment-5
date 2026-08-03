@@ -4,6 +4,7 @@ import { Ban, Eye, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { startTransition, useActionState, useEffect } from "react";
 import { toggleUserBanStatus } from "../_actions/toggleUserBanStatus";
+import { toast } from "sonner";
 type User = { id: string; status: "BAN" | "UNBAN" };
 const AdminUserTableActionButtons = ({ item }: { item: User }) => {
   const router = useRouter();
@@ -13,10 +14,11 @@ const AdminUserTableActionButtons = ({ item }: { item: User }) => {
     null,
   );
   useEffect(() => {
-    if (state) {
-      router.refresh();
+    if (!state) return;
+    if (state.success) {
+      toast.success(`User ${newStatus.toLowerCase()} successfully!`);
     }
-  }, [state, router]);
+  }, [state, router, newStatus]);
   return (
     <div className="flex items-center justify-start gap-2">
       <Button

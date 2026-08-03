@@ -41,6 +41,7 @@ if (query.sortOrder) {
         Cookie: `accessToken=${accessToken}`,
       },
       cache: "no-cache",
+      next:{ tags:['all-users']}
     },
   );
 
