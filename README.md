@@ -2,7 +2,7 @@
 
 A full-stack rental property platform where landlords can list properties, tenants can request rentals and make payments, and admins can manage the platform.
 
-**Live:** [https://rent-nest-gilt.vercel.app](https://rent-nest-gilt.vercel.app)
+**Live:** [https://rent-nest-wine.vercel.app/](https://rent-nest-wine.vercel.app/)
 
 ## Tech Stack
 
