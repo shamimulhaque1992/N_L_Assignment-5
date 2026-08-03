@@ -61,12 +61,27 @@ const AdminPropertyListing = async ({
       })),
     },
     {
+      type: "double",
+      label: "Price Range (BDT)",
+      firstInput: { placeholder: "Min Price", paramKey: "minPrice" },
+      secondInput: { placeholder: "Max Price", paramKey: "maxPrice" },
+    },
+    {
       type: "single-checkbox",
-      label: "Sort By Date",
-      paramKey: "createdAt",
+      label: "Sort By",
+      paramKey: "sortBy",
       options: [
-        { label: "Newest First", value: "DESC" },
-        { label: "Oldest First", value: "ASC" },
+        { label: "Created Date", value: "createdAt" },
+        { label: "Price", value: "price" },
+      ],
+    },
+    {
+      type: "single-checkbox",
+      label: "Sort Order",
+      paramKey: "sortOrder",
+      options: [
+        { label: "Ascending (Low to High / Newest)", value: "desc" },
+        { label: "Descending (High to Low / Oldest)", value: "asc" },
       ],
     },
   ];

@@ -33,7 +33,10 @@ export const getAllMyProperties = async ({
       params.set("status", query.status as string);
     }
     if (query.createdAt) {
-      params.set("createdAt", query.createdAt as string);
+      params.set("sortBy", query.sortBy as string);
+    }
+if (query.sortOrder) {
+      params.set("sortOrder", query.sortOrder as string);
     }
     if (query.page) {
       params.set("page", query.page as string);

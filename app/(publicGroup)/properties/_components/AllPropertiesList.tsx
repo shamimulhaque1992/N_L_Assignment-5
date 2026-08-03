@@ -40,20 +40,20 @@ export const AllPropertiesList = async ({
     },
     {
       type: "single-checkbox",
-      label: "Sort By Price",
-      paramKey: "price",
+      label: "Sort By",
+      paramKey: "sortBy",
       options: [
-        { label: "Price: Low to High", value: "ASC" },
-        { label: "Price: High to Low", value: "DESC" },
+        { label: "Created Date", value: "createdAt" },
+        { label: "Price", value: "price" },
       ],
     },
     {
       type: "single-checkbox",
-      label: "Sort By Date",
-      paramKey: "createdAt",
+      label: "Sort Order",
+      paramKey: "sortOrder",
       options: [
-        { label: "Newest First", value: "DESC" },
-        { label: "Oldest First", value: "ASC" },
+        { label: "Ascending (Low to High / Newest)", value: "desc" },
+        { label: "Descending (High to Low / Oldest)", value: "asc" },
       ],
     },
     {

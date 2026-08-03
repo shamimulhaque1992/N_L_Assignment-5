@@ -65,11 +65,17 @@ const filterFields: FilterField[] = [
   },
   {
     type: "single-checkbox",
-    label: "Sort By Date",
-    paramKey: "createdAt",
+    label: "Sort By",
+    paramKey: "sortBy",
+    options: [{ label: "Created Date", value: "createdAt" }],
+  },
+  {
+    type: "single-checkbox",
+    label: "Sort Order",
+    paramKey: "sortOrder",
     options: [
-      { label: "Newest First", value: "DESC" },
-      { label: "Oldest First", value: "ASC" },
+      { label: "Ascending (Newest)", value: "desc" },
+      { label: "Descending (Oldest)", value: "asc" },
     ],
   },
 ];
