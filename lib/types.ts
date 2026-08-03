@@ -106,3 +106,61 @@ export type Review = {
     };
   };
 };
+
+export type TenantHistoryData = {
+  tenant: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    status: string;
+    createdAt: string;
+    profile: {
+      avatar: string;
+      bio: string;
+      phone: string;
+    };
+  };
+  rentalHistory: Array<{
+    id: string;
+    status: string;
+    message: string;
+    createdAt: string;
+    updatedAt: string;
+    property: {
+      id: string;
+      title: string;
+      description: string;
+      price: string;
+      address: string;
+      amenities: string[];
+      images: string[];
+      category: {
+        name: string;
+      };
+    };
+    payment?: {
+      amount: string;
+      status: string;
+      method: string;
+      provider: string;
+      paidAt: string;
+      currentPeriodEnd: string;
+    };
+  }>;
+  reviewHistory: Array<{
+    id: string;
+    rating: number;
+    comment: string;
+    createdAt: string;
+    property: {
+      id: string;
+      title: string;
+      address: string;
+      images: string[];
+    };
+  }>;
+  totalRentals: number;
+  completedRentals: number;
+  totalReviews: number;
+};

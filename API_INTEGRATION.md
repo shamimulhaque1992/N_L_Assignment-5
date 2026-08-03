@@ -1,60 +1,155 @@
-# API Integration
+# API Integration Documentation
 
-Base URL is set via `BACKEND_API_URL` in `.env`. All requests are made through Next.js Server Actions.
+This document maps frontend components to backend API endpoints for the RentNest application.
+
+**Base URL**: Set via `BACKEND_API_URL` in `.env`  
+**Authentication**: All requests use Next.js Server Actions with httpOnly cookies
 
 ---
 
-## Auth
+## API Endpoints by Feature
 
-- `POST /auth/login` — login, sets httpOnly access + refresh token cookies
-- `POST /auth/register` — create a new account
-- `POST /auth/refresh-token` — silently refresh access token (handled by `validateAccessToken`)
+### Authentication
+- `POST /auth/login` — User login (sets httpOnly cookies)
+- `POST /auth/register` — User registration
+- `POST /auth/refresh-token` — Refresh access token (automatic via `validateAccessToken()`)
 
-## Users
+### Users
+- `GET /users/me` — Current user profile
+- `GET /users` — List all users (admin)
+- `GET /users/:id` — Single user detail (admin)
+- `PATCH /users/:id/moderate` — Ban/unban user (admin)
 
-- `GET /users/me` — fetch the logged-in user's profile (used on all three /me pages)
-- `GET /users` — list all users with pagination (admin)
-- `GET /users/:id` — single user detail (admin)
-- `PATCH /users/:id/moderate` — ban or unban a user (admin)
+### Properties
+- `GET /properties` — List all properties with filters
+- `GET /properties/:id` — Single property detail
+- `GET /landlord/properties` — Landlord's own properties
+- `POST /properties` — Create property (landlord)
+- `PATCH /properties/:id` — Update property (landlord)
+- `DELETE /properties/:id` — Delete property (landlord)
 
-## Properties
+### Categories
+- `GET /categories` — List all categories
+- `POST /categories` — Create category (admin)
+- `PATCH /categories/:id` — Update category (admin)
+- `DELETE /categories/:id` — Delete category (admin)
 
-- `GET /properties` — list all properties with filters (search, location, price, category, amenities)
-- `GET /properties/:id` — single property detail
-- `GET /properties/my-properties` — landlord's own listings
-- `POST /properties` — create a property (landlord)
-- `PATCH /properties/:id` — update property details (landlord)
-- `PATCH /properties/:id` — toggle property status available/unavailable (landlord)
-- `DELETE /properties/:id` — delete a property (landlord)
+### Rentals
+- `POST /rentals` — Submit rental request (tenant)
+- `GET /rentals` — List rental requests (tenant)
+- `GET /landlord/rental-requests` — List rental requests for landlord's properties
+- `GET /rentals/:id` — Single rental detail
+- `PATCH /rentals/:id/status` — Approve/reject/complete (landlord)
+- `PATCH /rentals/:id/cancel` — Cancel request (tenant)
+- `DELETE /rentals/:id` — Delete request (landlord)
 
-## Categories
+### Tenant History
+- `GET /landlord/tenants/:tenantId/history` — Complete tenant history with rentals, reviews, and stats (landlord)
 
-- `GET /categories` — all property categories
-- `POST /categories` — create a category (admin)
-- `PATCH /categories/:id` — update a category (admin)
-- `DELETE /categories/:id` — delete a category (admin)
+### Payments
+- `POST /payments/create-intent` — Create payment intent (tenant)
+- `GET /payments` — Payment history (tenant)
+- `GET /payments/:id` — Single payment detail
 
-## Rentals
+### Reviews
+- `POST /reviews` — Submit review (tenant, after completed rental)
 
-- `POST /rentals` — tenant submits a rental request
-- `GET /rentals` — list rental requests (filtered by role)
-- `GET /rentals/:id` — single rental request detail
-- `PATCH /rentals/:id/status` — approve, reject, or complete a request (landlord)
-- `PATCH /rentals/:id/cancel` — tenant cancels a pending request
-- `DELETE /rentals/:id` — delete a rental request (landlord)
+### Dashboard Stats
+- `GET /landlord/stats` — Landlord statistics
+- `GET /tenant/stats` — Tenant statistics
+- `GET /admin/dashboard` — Admin statistics
 
-## Payments
+---
 
-- `POST /payments/create-intent` — create a payment intent (tenant)
-- `GET /payments` — tenant's payment history
-- `GET /payments/:id` — single payment detail
+## Component to API Mapping
 
-## Reviews
+### Public Pages
 
-- `POST /reviews` — tenant submits a review after a completed rental
+**PropertiesListingPage**
+- Action: `getAllProperties` → `GET /properties`
 
-## Dashboard Stats
+**PropertyDetailPage**
+- Action: `getPropertyById` → `GET /properties/:id`
 
-- `GET /landlord/stats` — landlord dashboard statistics (total properties, requests, revenue, reviews, ratings)
-- `GET /tenant/stats` — tenant dashboard statistics (requests by status, payments, amount spent, reviews)
-- `GET /admin/dashboard` — platform-wide statistics (admin)
+**RegisterForm**
+- Action: `registerAction` → `POST /auth/register`
+
+**LoginForm**
+- Action: `loginAction` → `POST /auth/login`
+
+### Tenant Dashboard
+
+**TenantDashboard**
+- Action: `getTenantStats` → `GET /tenant/stats`
+
+**TenantRentalRequests**
+- Action: `getAllRentalRequests` → `GET /rentals`
+
+**TenantPaymentHistory**
+- Action: `getPaymentHistory` → `GET /payments`
+
+**CreateRentalRequest**
+- Action: `createRentalRequest` → `POST /rentals`
+
+**ReviewForm**
+- Action: `createReview` → `POST /reviews`
+
+**PaymentPage**
+- Action: `createPaymentIntent` → `POST /payments/create-intent`
+
+### Landlord Dashboard
+
+**LandlordDashboard**
+- Action: `getLandlordStats` → `GET /landlord/stats`
+
+**LandlordPropertyListing**
+- Action: `getAllMyProperties` → `GET /landlord/properties`
+
+**CreatePropertyForm**
+- Action: `createProperty` → `POST /properties`
+
+**EditPropertyForm**
+- Action: `updateProperty` → `PATCH /properties/:id`
+
+**PropertyStatusToggle**
+- Action: `updatePropertyStatus` → `PATCH /properties/:id`
+
+**DeleteProperty**
+- Action: `deleteProperty` → `DELETE /properties/:id`
+
+**AllPropertyRequestDashboardListing**
+- Action: `getAllRequestOfMyProperties` → `GET /landlord/rental-requests`
+
+**RentalStatusUpdate**
+- Action: `updateRentalStatus` → `PATCH /rentals/:id/status`
+
+**TenantHistoryContent**
+- Action: `getTenantHistory` → `GET /landlord/tenants/:tenantId/history`
+
+### Admin Dashboard
+
+**AdminDashboard**
+- Action: `getAdminStats` → `GET /admin/dashboard`
+
+**AdminUserListing**
+- Action: `getAllUsers` → `GET /users`
+
+**ModerateUser**
+- Action: `moderateUser` → `PATCH /users/:id/moderate`
+
+**AdminPropertyListing**
+- Action: `getAllProperties` → `GET /properties`
+
+**AdminCategoryListing**
+- Action: `getAllCategories` → `GET /categories`
+
+**CreateCategory**
+- Action: `createCategory` → `POST /categories`
+
+**UpdateCategory**
+- Action: `updateCategory` → `PATCH /categories/:id`
+
+**DeleteCategory**
+- Action: `deleteCategory` → `DELETE /categories/:id`
+
+---

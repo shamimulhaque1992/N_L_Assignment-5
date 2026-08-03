@@ -31,7 +31,7 @@ export const deleteARentalRequest = async (
   const result = await res.json();
 
   if (result.success) {
-    revalidateTag("rentals-requests", { expire: 0 });
+    revalidateTag("rentals-requests-of-mine", { expire: 0 });
   }
   return result;
 };

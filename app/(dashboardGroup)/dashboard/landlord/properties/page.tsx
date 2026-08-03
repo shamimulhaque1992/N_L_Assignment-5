@@ -24,7 +24,7 @@ const LandLordAllMyPropertiesDashboardPage = async ({
         <div className="flex justify-end">
           <Link href={"/dashboard/landlord/properties/new"}>
             <Button variant={"outline"} className="cursor-pointer">
-              Add New Category
+              Add New Property
             </Button>
           </Link>
         </div>

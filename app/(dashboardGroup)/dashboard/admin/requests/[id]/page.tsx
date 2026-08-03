@@ -46,7 +46,7 @@ export default async function LandlordRentalRequestDetailsPage({
           longer exists.
         </p>
         <Link
-          href="/dashboard/landlord/requests"
+          href="/dashboard/admin/requests"
           className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline"
         >
           <ArrowLeft className="h-4 w-4" />
@@ -114,7 +114,7 @@ export default async function LandlordRentalRequestDetailsPage({
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Back Link */}
         <Link
-          href="/dashboard/landlord/requests"
+          href="/dashboard/admin/requests"
           className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition"
         >
           <ArrowLeft className="h-4 w-4" />

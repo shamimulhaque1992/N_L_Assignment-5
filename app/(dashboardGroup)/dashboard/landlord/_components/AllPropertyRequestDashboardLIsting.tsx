@@ -6,10 +6,15 @@ import AppSearchBar from "@/components/shared/AppSearchBar";
 import AppFilter, { FilterField } from "@/components/shared/AppFilter";
 import AppPagination from "@/components/shared/AppPagination";
 import { PropertyTableSkeleton } from "../../_components/PropertyTableSkeleton";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { History } from "lucide-react";
+import { getAllRequestOfMyProperties } from "../_actions/getAllRequestOfMyProperties";
 
 type RentalRequest = {
   id: string;
   propertyId: string;
+  tenantId: string;
   status: string;
   createdAt: string;
   property: {
@@ -17,6 +22,7 @@ type RentalRequest = {
     title: string;
   };
   tenant: {
+    id: string;
     name: string;
     email: string;
   };
@@ -38,11 +44,26 @@ const columns: TableColumn<RentalRequest>[] = [
     label: "Tenant",
     slug: "tenant",
     render: (item) => (
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-1">
         <span className="font-medium text-sm">{item?.tenant?.name}</span>
         <span className="text-xs text-muted-foreground">
           {item?.tenant?.email}
         </span>
+        {item?.tenant?.id && (
+          <Link
+            href={`/dashboard/landlord/tenant-history/${item.tenant.id}`}
+            className="inline-flex"
+          >
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-7 px-2 text-xs gap-1 hover:bg-primary/10 hover:text-primary"
+            >
+              <History className="h-3 w-3" />
+              View History
+            </Button>
+          </Link>
+        )}
       </div>
     ),
   },
@@ -120,7 +141,7 @@ const AllPropertyRequestDashboardListing = async ({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
   const query = await searchParams;
-  const result = await getAllRentalRequests({ query });
+  const result = await getAllRequestOfMyProperties({ query });
 
   const requests: RentalRequest[] = result?.data ?? [];
 
