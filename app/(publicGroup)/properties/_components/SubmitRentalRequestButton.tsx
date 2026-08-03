@@ -61,7 +61,7 @@ const SubmitRentalRequestButton = ({
           className="w-full h-12 text-sm font-semibold rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-500/20 transition-all flex items-center justify-center gap-2"
         >
           <Send className="h-4 w-4" />
-          {pending ? "Submitting request..." : "Submit Request"}
+          {pending ? "Submitting request..." : "Request to Rent"}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
@@ -95,7 +95,7 @@ const SubmitRentalRequestButton = ({
               className="text-sm font-semibold rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-500/20 transition-all flex items-center justify-center gap-2"
             >
               <Send className="h-4 w-4" />
-              {pending ? "Submitting..." : "Submit Request"}
+              {pending ? "Submitting..." : "Request to Rent"}
             </Button>
           </DialogFooter>
         </form>

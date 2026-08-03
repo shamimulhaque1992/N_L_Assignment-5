@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import ApproveRequestButton from "../../_components/ApproveRequestButton";
 import RejectRequestButton from "../../_components/RejectRequestButton";
+import Image from "next/image";
 
 interface LandlordRentalRequestDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -141,7 +142,9 @@ export default async function LandlordRentalRequestDetailsPage({
               <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
                 {mainImage && (
                   <div className="h-56 w-full overflow-hidden">
-                    <img
+                    <Image
+                      height={500}
+                      width={900}
                       src={mainImage}
                       alt={property.title}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"

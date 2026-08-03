@@ -3,6 +3,7 @@ import { ArrowLeft, Calendar, Mail, Phone, User } from "lucide-react";
 import AppStatusBadge from "@/components/shared/AppBadge";
 import { getSingleUser } from "../../_actions/getSingleUser";
 import AdminUserTableActionButtons from "../../_components/AdminUserTableActionButtons";
+import Image from "next/image";
 interface Props {
   params: Promise<{ id: string }>;
 }
@@ -35,7 +36,9 @@ export default async function UsersDetailsPageAdminView({ params }: Props) {
         <div className="flex items-center gap-4">
           <div className="h-20 w-20 rounded-full overflow-hidden bg-slate-100 flex items-center justify-center border">
             {user.profile?.avatar ? (
-              <img
+              <Image
+                height={50}
+                width={50}
                 src={user.profile.avatar}
                 alt={user.name}
                 className="h-full w-full object-cover"

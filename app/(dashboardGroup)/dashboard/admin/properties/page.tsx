@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import Link from "next/link";
 
 import { PropertyTableSkeleton } from "../../_components/PropertyTableSkeleton";
 import AdminPropertyListing from "../_components/AdminPropertyListing";
@@ -19,15 +18,6 @@ const AdminAllPropertiesDashboardPage = async ({
           <p className="text-muted-foreground text-sm mt-1">
             All rental properties have listed are shown below.
           </p>
-        </div>
-
-        <div className="flex justify-end">
-          <Link
-            href={"/dashboard/landlord/properties/new"}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-          >
-            Add New Property
-          </Link>
         </div>
       </div>
       <Suspense fallback={<PropertyTableSkeleton />}>

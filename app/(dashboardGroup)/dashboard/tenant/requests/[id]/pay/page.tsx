@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import PayNowButton from "../../_components/PayNowButton";
 import { statusConfig } from "../../_config/statusConfig";
+import Image from "next/image";
 
 interface RentalRequestDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -103,7 +104,9 @@ export default async function RentalRequestDetailsPage({
                 {/* Property Image */}
                 {mainImage && (
                   <div className="h-56 w-full overflow-hidden">
-                    <img
+                    <Image
+                      height={500}
+                      width={900}
                       src={mainImage}
                       alt={property.title}
                       className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"

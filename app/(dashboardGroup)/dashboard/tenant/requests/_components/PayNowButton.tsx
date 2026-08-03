@@ -30,7 +30,7 @@ export default function PayNowButton({
         disabled={pending}
         className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-2xl transition-all duration-200 shadow-md hover:shadow-lg"
       >
-        {pending ? "Processing…" : "Pay Now"}
+        {pending ? "Processing…" : "Proceed to Payment"}
       </Button>
     </form>
   );

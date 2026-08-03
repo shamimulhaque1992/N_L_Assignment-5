@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import SubmitRentalRequestButton from "../_components/SubmitRentalRequestButton";
 import { Review } from "@/lib/types";
 import { validateAccessToken } from "@/service/validateAccessToken";
+import Image from "next/image";
 
 interface PropertyDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -95,7 +96,9 @@ export default async function PropertyDetailsPage({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 rounded-3xl overflow-hidden shadow-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-2">
           {/* Main Large Image */}
           <div className="md:col-span-2 relative h-[320px] md:h-[450px] w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800">
-            <img
+            <Image
+              height={500}
+              width={900}
               src={mainImage}
               alt={property.title}
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
@@ -110,7 +113,9 @@ export default async function PropertyDetailsPage({
                   key={idx}
                   className="relative flex-1 rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800"
                 >
-                  <img
+                  <Image
+                    height={50}
+                    width={90}
                     src={imgUrl}
                     alt={`${property.title} preview ${idx + 2}`}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
@@ -186,7 +191,9 @@ export default async function PropertyDetailsPage({
                     {property.landlord.profile?.avatar &&
                     property.landlord.profile.avatar !==
                       "https://google.com" ? (
-                      <img
+                      <Image
+                        height={50}
+                        width={90}
                         src={property.landlord.profile.avatar}
                         alt={property.landlord.name}
                         className="w-full h-full object-cover"
